@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教師編集</title>
+    <!-- BootstrapのCSSをCDNから読み込み -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<style>
+        body {
+            background-color: #f8f9fa;
+            margin-top: 50px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, input {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+<div class="container">
+    <h2>教師編集</h2>
+    <form th:action="@{/teachers/edit/{id}(id=${teacher.id})}" method="post" th:object="${teacher}">
+        ID：<input type="text" th:field="*{id}" readonly><br>
+        パスワード: <input type="text" th:field="*{password}" required><br>
+        名前：<input type="text" th:field="*{name}" required><br>
+        学校：<select id="schoolCd" name="schoolCd" th:field="*{schoolCd}" required>
+                		<option th:each="entry : ${schoolMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+            		</select><br>
+        <button type="submit">更新</button>
+    </form>
+    <a href="/teachers/list">教師一覧に戻る</a>
+
+
+    <!-- ボタンの例 -->
+<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
+</div>
+
+<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

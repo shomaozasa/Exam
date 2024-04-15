@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>得点管理システム</title>
+    <!-- BootstrapのCSSをCDNから読み込み -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<style>
+	/* リンクのスタイル */
+a {
+    color: #007bff; /* リンクの色をブートストラップのデフォルトの青色に設定 */
+    text-decoration: none; /* 下線を削除 */
+}
+
+a:hover {
+    color: #0056b3; /* ホバー時のリンクの色をブートストラップのデフォルトの青色の少し濃い色に設定 */
+}
+
+ul li {
+    margin-bottom: 10px; /* 各リスト項目の下に余白を追加 */
+}
+
+/* ボタンのスタイル */
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+</style>
+<div class="container">
+    <h1>トップ</h1><br>
+    <ul>
+		
+	<li><h3><a href="schools/register">学校登録</a></h3></li>
+	<li><h3><a href="schools/list">学校一覧</a></h3></li>
+	<li><h3><a href="classnums/register">クラス登録</a></h3></li>
+	<li><h3><a href="classnums/list">クラス一覧</a></h3></li>
+	<li><h3><a href="students/register">学生登録</a></h3></li>
+	<li><h3><a href="students/list">学生一覧</a></h3></li>
+	<li><h3><a href="subjects/register">科目登録</a></h3></li>
+	<li><h3><a href="subjects/list">科目一覧</a></h3></li>
+	<li><h3><a href="teachers/register">教師登録</a></h3></li>
+	<li><h3><a href="teachers/list">教師一覧</a></h3></li>
+	<li><h3><a href="tests/register">成績登録</a></h3></li>
+	<li><h3><a href="tests/list">成績一覧</a></h3></li>
+
+	</ul>
+
+    <!-- ボタンの例 -->
+<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
+</div>
+
+<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

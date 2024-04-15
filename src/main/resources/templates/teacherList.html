@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教師一覧</title>
+    <!-- BootstrapのCSSをCDNから読み込み -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<style>
+        body {
+            background-color: #f8f9fa;
+            margin-top: 50px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        a, button {
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        a:hover, button:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+<div class="container">
+     <h2>教師一覧</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>パスワード</th>
+                <th>名前</th>
+                <th>学校コード</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="teacher : ${teachers}">
+                <td th:text="${teacher.id}"></td>
+                <td th:text="${teacher.password}"></td>
+                <td th:text="${teacher.name}"></td>
+                <td th:text="${teacher.schoolCd}"></td>
+                <td>
+                    <a th:href="@{/teachers/edit/{id}(id=${teacher.id})}">編集</a>
+                </td>
+				<td>
+                    <form th:action="@{/teachers/list}" method="post">
+                        <input type="hidden" name="id" th:value="${teacher.id}">
+                        <button type="submit" onclick="return confirm('本当に削除しますか？')">削除</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/teachers/register">新規登録</a><br>
+    <a href="/">トップへ</a>
+
+
+    <!-- ボタンの例 -->
+<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
+</div>
+
+<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
