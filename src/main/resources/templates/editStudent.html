@@ -77,9 +77,23 @@
         		<option th:each="classNum : ${classNums}" th:value="${classNum.classNum}" th:text="${classNum.classNum}"></option>
     		</select>
         </div>
+<!--        <div>-->
+<!--            <label for="isAttend">在学中:</label>-->
+<!--            <input type="checkbox" id="isAttend" name="isAttend" th:checked="${student.isAttend}"/>-->
+<!--        </div>-->
+		<div>
+    <label for="isAttend">在学中:</label>
+    <select id="isAttend" name="isAttend">
+        <option value="true" th:selected="${student.isAttend == true}">在学中</option>
+        <option value="false" th:selected="${student.isAttend == false}">退学済み</option>
+    </select>
+</div>
+
         <div>
-            <label for="isAttend">在学中:</label>
-            <input type="checkbox" id="isAttend" name="isAttend" th:checked="${student.isAttend}"/>
+            <label for="schoolCd">学校:</label>
+            <select id="schoolCd" name="schoolCd" th:field="*{schoolCd}" required>
+                <option th:each="entry : ${schoolMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+            </select>
         </div>
         <div>
             <button type="submit">保存</button>

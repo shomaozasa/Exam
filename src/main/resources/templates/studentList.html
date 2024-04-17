@@ -60,6 +60,31 @@
 
 <div class="container">
     <h1>学生一覧</h1>
+    
+    <!-- 検索フォーム -->
+   <form th:action="@{/students/list}" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="entYear">入学年度:</label>
+                <input type="number" class="form-control" id="entYear" name="entYear" placeholder="入学年度" th:value="${entYear}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="classNum">クラス番号:</label>
+                <input type="text" class="form-control" id="classNum" name="classNum" placeholder="クラス番号" th:value="${classNum}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="isAttend">在学:</label>
+                <select class="form-control" id="isAttend" name="isAttend" th:value="${isAttend}">
+                    <option value="">すべて</option>
+                    <option value="true">在学中</option>
+                    <option value="false">退学済み</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">検索</button>
+    </form>
+    
+    <br>
     <table border="1">
         <thead>
             <tr>
@@ -68,32 +93,47 @@
                 <th>入学年度</th>
                 <th>クラス番号</th>
                 <th>在学</th>
-                <th>操作</th>
+                <th>学校コード</th>
+                <th colspan="2">操作</th>
             </tr>
         </thead>
         <tbody>
+            <!-- 検索結果を表示する部分 -->
+            <tr th:if="${not #lists.isEmpty(searchedStudents)}" th:each="student : ${searchedStudents}">
+                <td th:text="${student.no}"></td>
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.entYear}"></td>
+                <td th:text="${student.classNum}"></td>
+                <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
+                <td th:text="${student.schoolCd}"></td>
+                <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
+                <td>
+                   <form th:action="@{/students/list}" method="post">
+                       <input type="hidden" name="no" th:value="${student.no}">
+                       <button onclick="return confirm('削除しますか？')">削除</button>
+                   </form>
+                </td>
+            </tr>
+            <!-- 通常の学生一覧を表示する部分 -->
             <tr th:each="student : ${students}">
                 <td th:text="${student.no}"></td>
                 <td th:text="${student.name}"></td>
                 <td th:text="${student.entYear}"></td>
                 <td th:text="${student.classNum}"></td>
                 <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
+                <td th:text="${student.schoolCd}"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
                 <td>
-				   <form th:action="@{/students/list}" method="post">
+                   <form th:action="@{/students/list}" method="post">
                        <input type="hidden" name="no" th:value="${student.no}">
                        <button onclick="return confirm('削除しますか？')">削除</button>
                    </form>
-				</td>
+                </td>
             </tr>
         </tbody>
     </table>
    <a href="/students/register">新規登録</a><br>
    <a href="/">トップへ</a>
-
-
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
 </div>
 
 <!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
