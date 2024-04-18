@@ -77,14 +77,14 @@ public class StudentController {
             @RequestParam(name = "entYear", required = false) Integer entYear,
             @RequestParam(name = "classNum", required = false) String classNum,
             @RequestParam(name = "isAttend", required = false) Boolean isAttend,
-            @RequestParam(name = "no", required = false) String studentNo,
+//            @RequestParam(name = "no", required = false) String studentNo,
             Model model) {
 
-        // 削除操作の場合
-        if (studentNo != null) {
-            studentService.deleteStudent(studentNo);
-            return "redirect:/students/list"; // クラス番号一覧ページにリダイレクト
-        }
+//        // 削除操作の場合
+//        if (studentNo != null) {
+//            studentService.deleteStudent(studentNo);
+//            return "redirect:/students/list"; // クラス番号一覧ページにリダイレクト
+//        }
         
         // 検索操作の場合
         List<Student> students = studentService.filterStudents(entYear, classNum, isAttend);

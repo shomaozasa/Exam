@@ -94,7 +94,7 @@
                 <th>クラス番号</th>
                 <th>在学</th>
                 <th>学校コード</th>
-                <th colspan="2">操作</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -107,15 +107,15 @@
                 <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
                 <td th:text="${student.schoolCd}"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
-                <td>
-                   <form th:action="@{/students/list}" method="post">
-                       <input type="hidden" name="no" th:value="${student.no}">
-                       <button onclick="return confirm('削除しますか？')">削除</button>
-                   </form>
-                </td>
+<!--                <td>-->
+<!--                   <form th:action="@{/students/list}" method="post">-->
+<!--                       <input type="hidden" name="no" th:value="${student.no}">-->
+<!--                       <button onclick="return confirm('削除しますか？')">削除</button>-->
+<!--                   </form>-->
+<!--                </td>-->
             </tr>
             <!-- 通常の学生一覧を表示する部分 -->
-            <tr th:each="student : ${students}">
+            <tr th:each="student : ${students}" th:if="${student.isAttend}">
                 <td th:text="${student.no}"></td>
                 <td th:text="${student.name}"></td>
                 <td th:text="${student.entYear}"></td>
@@ -123,12 +123,12 @@
                 <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
                 <td th:text="${student.schoolCd}"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
-                <td>
-                   <form th:action="@{/students/list}" method="post">
-                       <input type="hidden" name="no" th:value="${student.no}">
-                       <button onclick="return confirm('削除しますか？')">削除</button>
-                   </form>
-                </td>
+<!--                <td>-->
+<!--                   <form th:action="@{/students/list}" method="post">-->
+<!--                       <input type="hidden" name="no" th:value="${student.no}">-->
+<!--                       <button onclick="return confirm('削除しますか？')">削除</button>-->
+<!--                   </form>-->
+<!--                </td>-->
             </tr>
         </tbody>
     </table>

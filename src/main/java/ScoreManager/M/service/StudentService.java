@@ -46,7 +46,6 @@ public class StudentService {
     
     public boolean isStudentNoDuplicate(String studentNo) {
         // 学生番号が重複しているかどうかをデータベースでチェックするロジックを実装する
-        // 例えば、学生番号をキーとしてデータベースから学生を検索し、存在すれば重複と判定する
         Optional<Student> existingStudent = studentRepository.findById(studentNo);
         return existingStudent.isPresent(); // 存在すれば true を返す
     }
