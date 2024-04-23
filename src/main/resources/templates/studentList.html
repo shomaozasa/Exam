@@ -80,6 +80,9 @@
                     <option value="false">退学済み</option>
                 </select>
             </div>
+            <div>
+           		<input type="hidden" name="schoolCd" th:value="${schoolCd}">
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">検索</button>
     </form>
@@ -107,12 +110,6 @@
                 <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
                 <td th:text="${student.schoolCd}"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
-<!--                <td>-->
-<!--                   <form th:action="@{/students/list}" method="post">-->
-<!--                       <input type="hidden" name="no" th:value="${student.no}">-->
-<!--                       <button onclick="return confirm('削除しますか？')">削除</button>-->
-<!--                   </form>-->
-<!--                </td>-->
             </tr>
             <!-- 通常の学生一覧を表示する部分 -->
             <tr th:each="student : ${students}" th:if="${student.isAttend}">
@@ -123,12 +120,6 @@
                 <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
                 <td th:text="${student.schoolCd}"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
-<!--                <td>-->
-<!--                   <form th:action="@{/students/list}" method="post">-->
-<!--                       <input type="hidden" name="no" th:value="${student.no}">-->
-<!--                       <button onclick="return confirm('削除しますか？')">削除</button>-->
-<!--                   </form>-->
-<!--                </td>-->
             </tr>
         </tbody>
     </table>

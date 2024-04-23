@@ -2,6 +2,7 @@ package ScoreManager.M.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,34 +45,49 @@ public class StudentService {
         return studentRepository.findById(studentNo);
     }
     
+    public List<Student> getStudentsBySchoolCd(String schoolCd) {
+        return studentRepository.findBySchoolCd(schoolCd);
+    }
+    
+    // 学生番号の重複チェック
     public boolean isStudentNoDuplicate(String studentNo) {
-        // 学生番号が重複しているかどうかをデータベースでチェックするロジックを実装する
         Optional<Student> existingStudent = studentRepository.findById(studentNo);
         return existingStudent.isPresent(); // 存在すれば true を返す
     }
     
-    public List<Student> filterStudents(Integer entYear, String classNum, Boolean isAttend) {
+ // 学生を条件で絞り込み
+    public List<Student> filterStudents(Integer entYear, String classNum, Boolean isAttend, String schoolCd) {
         List<Student> students = studentRepository.findAll();
+
+        // 学校コードで絞り込み
+        students = students.stream()
+                .filter(student -> student.getSchoolCd().equals(schoolCd))
+                .collect(Collectors.toList());
 
         // 入学年度で絞り込み
         if (entYear != null) {
-            students = studentRepository.findByEntYear(entYear);
+            students = students.stream()
+                    .filter(student -> student.getEntYear().equals(entYear))
+                    .collect(Collectors.toList());
         }
 
         // クラス番号で絞り込み
         if (classNum != null && !classNum.isEmpty()) {
-            List<Student> classNumStudents = studentRepository.findByClassNum(classNum);
-            students.retainAll(classNumStudents);
+            students = students.stream()
+                    .filter(student -> student.getClassNum().equals(classNum))
+                    .collect(Collectors.toList());
         }
 
         // 在学状況で絞り込み
         if (isAttend != null) {
-            List<Student> isAttendStudents = studentRepository.findByIsAttend(isAttend);
-            students.retainAll(isAttendStudents);
+            students = students.stream()
+                    .filter(student -> student.getIsAttend().equals(isAttend))
+                    .collect(Collectors.toList());
         }
 
         return students;
     }
+
 
 
 

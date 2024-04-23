@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,9 @@ public class TeacherController {
     
     @Autowired
     private SchoolService schoolService;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/register")
     public String showTeacherRegistrationForm(Model model) {
@@ -45,6 +49,8 @@ public class TeacherController {
 
     @PostMapping("/register")
     public String registerTeacher(@ModelAttribute Teacher teacher) {
+    	String hashedPassword = passwordEncoder.encode(teacher.getPassword());
+        teacher.setPassword(hashedPassword);
         teacherService.registerTeacher(teacher);
         return "redirect:/teachers/list";
     }
@@ -83,6 +89,9 @@ public class TeacherController {
 
     @PostMapping("/edit/{id}")
     public String editTeacher(@PathVariable String id, @ModelAttribute Teacher teacher) {
+    	String hashedPassword = passwordEncoder.encode(teacher.getPassword());
+    	teacher.setPassword(hashedPassword);
+        teacherService.registerTeacher(teacher);
         teacherService.updateTeacher(teacher);
         return "redirect:/teachers/list";
     }

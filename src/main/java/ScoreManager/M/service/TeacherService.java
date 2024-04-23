@@ -39,4 +39,9 @@ public class TeacherService {
     public Optional<Teacher> getTeacher(String id) {
         return teacherRepository.findById(id);
     }
+
+	public Teacher findByUsername(String usernameOrId) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
 }

@@ -33,6 +33,10 @@ public class SchoolService {
     public List<School> getAllSchools() {
         return schoolRepository.findAll();
     }
-
+    
+    public String getSchoolNameByCode(String cd) {
+        School school = schoolRepository.findByCdEquals(cd);
+        return school.getName();
+    }
 }
 

@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ScoreManager.M.model.ClassNum;
 import ScoreManager.M.model.School;
 import ScoreManager.M.model.Student;
+import ScoreManager.M.model.Teacher;
+import ScoreManager.M.repository.UserRepository;
 import ScoreManager.M.service.ClassNumService;
 import ScoreManager.M.service.SchoolService;
 import ScoreManager.M.service.StudentService;
@@ -34,6 +38,9 @@ public class StudentController {
     
     @Autowired
     private SchoolService schoolService;
+    
+    @Autowired
+    private UserRepository userRepository;
     
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
@@ -68,7 +75,12 @@ public class StudentController {
     
     @GetMapping("/list")
     public String listStudents(Model model) {
-        model.addAttribute("students", studentService.getAllStudents());
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String id = authentication.getName();
+	    Teacher teacher = userRepository.findByIdEquals(id);
+	    String schoolCd = teacher.getSchoolCd();
+	    List<Student> students = studentService.getStudentsBySchoolCd(schoolCd);
+        model.addAttribute("students", students);
         return "studentList";
     }
     
@@ -77,17 +89,16 @@ public class StudentController {
             @RequestParam(name = "entYear", required = false) Integer entYear,
             @RequestParam(name = "classNum", required = false) String classNum,
             @RequestParam(name = "isAttend", required = false) Boolean isAttend,
-//            @RequestParam(name = "no", required = false) String studentNo,
+            @RequestParam(name = "schoolCd", required = true) String schoolCd,
             Model model) {
-
-//        // 削除操作の場合
-//        if (studentNo != null) {
-//            studentService.deleteStudent(studentNo);
-//            return "redirect:/students/list"; // クラス番号一覧ページにリダイレクト
-//        }
         
-        // 検索操作の場合
-        List<Student> students = studentService.filterStudents(entYear, classNum, isAttend);
+        // 検索操作
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String id = authentication.getName();
+	    Teacher teacher = userRepository.findByIdEquals(id);
+	    String schoolcd = teacher.getSchoolCd();
+	    model.addAttribute("schoolCd", schoolcd);
+        List<Student> students = studentService.filterStudents(entYear, classNum, isAttend, schoolCd);
         System.out.println("検索結果: " + students); 
         model.addAttribute("searchedStudents", students);
         return "studentList"; // 検索結果のテンプレート名を返す
