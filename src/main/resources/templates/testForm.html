@@ -75,13 +75,10 @@
             </select>
         </div>
         <div>
-            <label for="schoolCd">学校:</label>
-            <select id="schoolCd" name="schoolCd" th:field="*{schoolCd}" required>
-                <option th:each="entry : ${schoolMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
-            </select>
+            <input type="hidden" name="schoolCd" th:value="${schoolCd}">
         </div>
         <div>
-            <label for="no">番号:</label>
+            <label for="no">回数:</label>
             <input type="number" id="no" name="no" th:field="*{no}" required/>
         </div>
         <div>

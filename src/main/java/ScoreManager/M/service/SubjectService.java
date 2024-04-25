@@ -39,4 +39,8 @@ public class SubjectService {
     public Optional<Subject> getSubject(String cd) {
         return subjectRepository.findById(cd);
     }
+    
+    public List<Subject> getSubjectsBySchoolCd(String schoolCd) {
+        return subjectRepository.findBySchoolCd(schoolCd);
+    }
 }

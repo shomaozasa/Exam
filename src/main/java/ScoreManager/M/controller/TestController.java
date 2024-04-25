@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,9 @@ import ScoreManager.M.model.ClassNum;
 import ScoreManager.M.model.School;
 import ScoreManager.M.model.Student;
 import ScoreManager.M.model.Subject;
+import ScoreManager.M.model.Teacher;
 import ScoreManager.M.model.Test;
+import ScoreManager.M.repository.UserRepository;
 import ScoreManager.M.service.ClassNumService;
 import ScoreManager.M.service.SchoolService;
 import ScoreManager.M.service.StudentService;
@@ -44,28 +48,31 @@ public class TestController {
     
     @Autowired
     private StudentService studentService;
+    
+    @Autowired
+    private UserRepository userRepository; 
 
     @GetMapping("/register")
     public String showTestRegistrationForm(Model model) {
         model.addAttribute("test", new Test());
-        List<ClassNum> classnums = classNumService.getAllClassNums();
-        model.addAttribute("classNums", classnums);
         
-        List<School> schools = schoolService.getAllSchools();
-        Map<String, String> schoolMap = new HashMap<>();
-        for (School school : schools) {
-            schoolMap.put(school.getCd(), school.getName());
-        }
-        model.addAttribute("schoolMap", schoolMap);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String id = authentication.getName();
+	    Teacher teacher = userRepository.findByIdEquals(id);
+	    String schoolCd = teacher.getSchoolCd();
+	    model.addAttribute("schoolCd", schoolCd);
+	    
+	    List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+	    model.addAttribute("classNums", classNums);
         
-        List<Subject> subjects = subjectService.getAllSubjects();
+	    List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
         Map<String, String> subjectMap = new HashMap<>();
         for (Subject subject : subjects) {
             subjectMap.put(subject.getCd(), subject.getName());
         }
         model.addAttribute("subjectMap", subjectMap);
         
-        List<Student> students = studentService.getAllStudents();
+        List<Student> students = studentService.getStudentsBySchoolCd(schoolCd);
         Map<String, String> studentMap = new HashMap<>();
         for (Student student : students) {
             studentMap.put(student.getNo(), student.getName());
@@ -83,7 +90,11 @@ public class TestController {
 
     @GetMapping("/list")
     public String listTests(Model model) {
-        List<Test> tests = testService.getAllTests();
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String id = authentication.getName();
+	    Teacher teacher = userRepository.findByIdEquals(id);
+	    String schoolCd = teacher.getSchoolCd();
+        List<Test> tests = testService.getTestsBySchoolCd(schoolCd);
         model.addAttribute("tests", tests);
         return "testList";
     }

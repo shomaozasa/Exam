@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,10 +15,18 @@ public class Test {
     @Id
     @Column(name = "STUDENT_NO", nullable = false, length = 10)
     private String studentNo;
+    
+    @ManyToOne
+    @JoinColumn(name = "STUDENT_NO", insertable = false, updatable = false) // 外部キーのマッピング
+    private Student student;
 
     @Id
     @Column(name = "SUBJECT_CD", nullable = false, length = 3)
     private String subjectCd;
+    
+    @ManyToOne
+    @JoinColumn(name = "SUBJECT_CD", insertable = false, updatable = false) // 外部キーのマッピング
+    private Subject subject;
 
     @Id
     @Column(name = "SCHOOL_CD", nullable = false, length = 10)
@@ -36,11 +46,19 @@ public class Test {
     public String getStudentNo() {
         return studentNo;
     }
+    
+    public Student getStudent() {
+    	return this.student;
+    }
 
     public String getSubjectCd() {
         return subjectCd;
     }
-
+    
+    public Subject getSubject()  {
+    	return this.subject;
+    }
+    
     public String getSchoolCd() {
         return schoolCd;
     }

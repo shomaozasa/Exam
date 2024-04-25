@@ -1,8 +1,6 @@
 package ScoreManager.M.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ScoreManager.M.model.ClassNum;
-import ScoreManager.M.model.School;
 import ScoreManager.M.model.Student;
 import ScoreManager.M.model.Teacher;
 import ScoreManager.M.repository.UserRepository;
@@ -45,14 +42,15 @@ public class StudentController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("student", new Student());
-        List<ClassNum> classnums = classNumService.getAllClassNums();
-        model.addAttribute("classNums", classnums);
-        List<School> schools = schoolService.getAllSchools();
-        Map<String, String> schoolMap = new HashMap<>();
-        for (School school : schools) {
-            schoolMap.put(school.getCd(), school.getName());
-        }
-        model.addAttribute("schoolMap", schoolMap);
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String id = authentication.getName();
+	    Teacher teacher = userRepository.findByIdEquals(id);
+	    String schoolCd = teacher.getSchoolCd();
+	    model.addAttribute("schoolCd", schoolCd);
+	    
+	    List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+	    model.addAttribute("classNums", classNums);
         return "studentForm"; // 登録画面のテンプレート名を返す
     }
 
@@ -98,6 +96,7 @@ public class StudentController {
 	    Teacher teacher = userRepository.findByIdEquals(id);
 	    String schoolcd = teacher.getSchoolCd();
 	    model.addAttribute("schoolCd", schoolcd);
+	    
         List<Student> students = studentService.filterStudents(entYear, classNum, isAttend, schoolCd);
         System.out.println("検索結果: " + students); 
         model.addAttribute("searchedStudents", students);
@@ -111,14 +110,15 @@ public class StudentController {
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
             model.addAttribute("student", student);
-            List<ClassNum> classnums = classNumService.getAllClassNums();
-            model.addAttribute("classNums", classnums);
-            List<School> schools = schoolService.getAllSchools();
-            Map<String, String> schoolMap = new HashMap<>();
-            for (School school : schools) {
-                schoolMap.put(school.getCd(), school.getName());
-            }
-            model.addAttribute("schoolMap", schoolMap);
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        	String id = authentication.getName();
+    	    Teacher teacher = userRepository.findByIdEquals(id);
+    	    String schoolCd = teacher.getSchoolCd();
+    	    model.addAttribute("schoolCd", schoolCd);
+    	    
+    	    List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+    	    model.addAttribute("classNums", classNums);
             return "editStudent";
         } else {
             return "redirect:/students/list";

@@ -33,6 +33,7 @@ public class MainController {
 	    }
 
 	    model.addAttribute("userName", name);
+	    model.addAttribute("schoolCd", schoolCd);
 	    model.addAttribute("schoolName", schoolName);
 	    return "top";
       }

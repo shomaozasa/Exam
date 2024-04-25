@@ -41,6 +41,7 @@ ul li {
     <h1>トップ</h1><br>
     <p>ようこそ: <span th:text="${userName}"></span>さん</p>
     <p>あなたの所属校: <span th:text="${schoolName}"></p>
+    <p>学校コード: <span th:text="${schoolCd}"><p>
     <form th:action="@{/logout}" method="post">
   		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
   		<button type="submit">ログアウト</button>

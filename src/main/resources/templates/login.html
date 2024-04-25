@@ -63,11 +63,11 @@
         <h2>ログイン</h2>
     <form th:action="@{/login}" method="post">
 		
-		 <label for="id">ID</label>
-         <input type="text" class="form-control" id="id" name="id" required><br>
+		 <label for="id">id</label>
+         <input type="text" class="form-control" id="id" name="id" placeholder="半角でご入力ください" required><br>
          
          <label for="password">パスワード</label>
-         <input type="password" class="form-control" id="password" name="password" required><br>
+         <input type="password" class="form-control" id="password" name="password" placeholder="20文字以内の半角英数字" required><br>
         <button type="submit">ログイン</button>
     </form><br>
 

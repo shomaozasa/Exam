@@ -86,10 +86,7 @@
             <input type="hidden" id="isAttend" name="isAttend" th:value="true"/>
         </div>
         <div>
-            <label for="schoolCd">学校:</label>
-            <select id="schoolCd" name="schoolCd" th:field="*{schoolCd}" required>
-                <option th:each="entry : ${schoolMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
-            </select>
+			<input type="hidden" name="schoolCd" th:value="${schoolCd}">
         </div>
         <div>
             <button type="submit">登録</button>

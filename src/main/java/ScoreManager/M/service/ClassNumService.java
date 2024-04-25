@@ -34,7 +34,12 @@ public class ClassNumService {
     public List<ClassNum> getAllClassNums() {
         return classNumRepository.findAll();
     }
-
+    
+    // 学校コードに対応するクラス番号を取得
+    public List<ClassNum> getClassNumsBySchoolCd(String schoolCd) {
+        return classNumRepository.findBySchoolCd(schoolCd);
+    }
+    
 }
 
 

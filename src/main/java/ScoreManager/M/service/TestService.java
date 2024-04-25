@@ -41,4 +41,9 @@ public class TestService {
     public Optional<Test> getTest(String studentNo, String subjectCd, String schoolCd, Integer no) {
         return testRepository.findById(studentNo, subjectCd, schoolCd, no);
     }
+    
+    public List<Test> getTestsBySchoolCd(String schoolCd) {
+        return testRepository.findBySchoolCd(schoolCd);
+    }
+
 }

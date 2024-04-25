@@ -60,22 +60,19 @@
 
 <div class="container">
     <h1>成績一覧</h1>
-		<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="学生番号を検索...">
     <br><br>
-    <table border="1" id="testListTable">
+    <table border="1">
         <tr>
-            <th>学生番号</th>
-            <th>科目コード</th>
-            <th>学校コード</th>
-            <th>番号</th>
+            <th>学生名</th>
+            <th>科目名</th>
+            <th>回数</th>
             <th>得点</th>
             <th>クラス番号</th>
             <th colspan="2">操作</th>
         </tr>
         <tr th:each="test : ${tests}">
-            <td th:text="${test.studentNo}"></td>
-            <td th:text="${test.subjectCd}"></td>
-            <td th:text="${test.schoolCd}"></td>
+            <td th:text="${test.student != null ? test.student.name : ''}"></td>
+            <td th:text="${test.subject != null ? test.subject.name : ''}"></td>
             <td th:text="${test.no}"></td>
             <td th:text="${test.point}"></td>
             <td th:text="${test.classNum}"></td>
@@ -93,7 +90,7 @@
             </td>
         </tr>
     </table>
-    <a href="/tests/register">新しいテストを登録</a><br>
+    <a href="/tests/register">成績を登録</a><br>
     <a href="/">トップへ</a>
 
 
@@ -105,34 +102,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-function searchTable() {
-    // 入力された検索キーワードを取得
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("testListTable");
-    tr = table.getElementsByTagName("tr");
 
-    // テーブル内の各行に対してループ
-    for (i = 0; i < tr.length; i++) {
-        // 2つ目のセル（クラス番号）を取得
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            // セルの内容を取得し、大文字に変換
-            txtValue = td.textContent || td.innerText;
-            // 検索キーワードが含まれるかチェック
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                // 含まれる場合は表示
-                tr[i].style.display = "";
-            } else {
-                // 含まれない場合は非表示
-                tr[i].style.display = "none";
-            }
-        }
-    }
-}
-</script>
 
 </body>
 </html>

@@ -96,7 +96,6 @@
                 <th>入学年度</th>
                 <th>クラス番号</th>
                 <th>在学</th>
-                <th>学校コード</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -108,7 +107,6 @@
                 <td th:text="${student.entYear}"></td>
                 <td th:text="${student.classNum}"></td>
                 <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
-                <td th:text="${student.schoolCd}"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
             </tr>
             <!-- 通常の学生一覧を表示する部分 -->
@@ -118,7 +116,6 @@
                 <td th:text="${student.entYear}"></td>
                 <td th:text="${student.classNum}"></td>
                 <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
-                <td th:text="${student.schoolCd}"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
             </tr>
         </tbody>

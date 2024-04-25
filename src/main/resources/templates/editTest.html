@@ -65,15 +65,12 @@
             <label for="point">得点:</label>
             <input type="number" id="point" name="point" th:value="${test.point}"/>
         </div>
-        <div>
-            <label for="classNum">クラス番号:</label>
-            <input type="text" id="classNum" name="classNum" th:value="${test.classNum}"/>
-        </div>
+        <input type="hidden" id="classNum" name="classNum" th:value="${test.classNum}"/>
         <div>
             <button type="submit">更新</button>
         </div>
     </form>
-    <a href="/tests/list">テスト一覧に戻る</a>
+    <a href="/tests/list">成績一覧に戻る</a>
 
 
     <!-- ボタンの例 -->

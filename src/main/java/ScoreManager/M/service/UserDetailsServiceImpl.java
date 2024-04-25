@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         Teacher teacher = userRepository.findByIdEquals(id);
         if (teacher == null) {
-            throw new UsernameNotFoundException("User not found with ID: " + id);
+            throw new UsernameNotFoundException("このidのユーザを特定できません: " + id);
         }
         return new org.springframework.security.core.userdetails.User(
             teacher.getId(),
