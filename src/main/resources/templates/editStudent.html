@@ -62,14 +62,13 @@
             <input type="text" id="no" name="no" th:value="*{no}" readonly/>
         </div>
         <div>
-            <label for="name">名前:</label>
-            <input type="text" id="name" name="name" th:value="*{name}" required/>
+            <label for="entYear">入学年度:</label>
+            <input type="number" id="entYear" name="entYear" th:value="*{entYear}" readonly>
+			</input>
         </div>
         <div>
-            <label for="entYear">入学年度:</label>
-            <select id="entYear" name="entYear" required>
-    			<option th:each="year : ${#numbers.sequence(2000, 2030)}" th:value="${year}" th:text="${year}"></option>
-			</select>
+            <label for="name">名前:</label>
+            <input type="text" id="name" name="name" th:value="*{name}" required/>
         </div>
         <div>
             <label for="classNum">クラス番号:</label>
@@ -99,7 +98,7 @@
     <!-- ボタンの例 -->
 <!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
 </div>
-
+<a href="/" class="btn btn-link">トップへ</a>
 <!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>

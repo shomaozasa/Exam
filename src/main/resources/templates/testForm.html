@@ -6,10 +6,7 @@
     <title>成績登録</title>
     <!-- BootstrapのCSSをCDNから読み込み -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-
-<style>
+    <style>
         body {
             background-color: #f8f9fa;
             margin-top: 50px;
@@ -31,15 +28,14 @@
             font-weight: bold;
         }
 
-        form {
-            max-width: 500px;
-            margin: auto;
+        .form-row,
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        select, input[type="text"] {
+        select, input[type="text"], input[type="number"] {
             width: 100%;
             padding: 8px;
-            margin-bottom: 20px;
             border: 1px solid #ced4da;
             border-radius: 4px;
             box-sizing: border-box;
@@ -58,51 +54,78 @@
             background-color: #0056b3;
         }
     </style>
+</head>
+<body>
 
 <div class="container">
-        <h1>成績登録</h1>
-    <form th:action="@{/tests/register}" method="post" th:object="${test}">
-        <div>
-            <label for="studentNo">学生:</label>
-            <select id="studentNo" name="studentNo" th:field="*{studentNo}" required>
-                <option th:each="entry : ${studentMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
-            </select>
+    <h1>成績管理</h1>
+    <form th:action="@{/tests/register/search}" method="post" class="mb-4">
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="entYear">入学年度:</label>
+                <input type="number" class="form-control" id="entYear" name="entYear" placeholder="入学年度" th:value="${entYear}">
+            </div>
+            <div class="col-md-6">
+                <label for="classNum">クラス番号:</label>
+                <select class="form-control" id="classNum" name="classNum">
+                    <option value="">-----</option>
+                    <option th:each="classNum : ${classNums}" th:value="${classNum.classNum}" th:text="${classNum.classNum}"></option>
+                </select>
+            </div>
         </div>
-        <div>
-            <label for="subjectCd">科目:</label>
-            <select id="subjectCd" name="subjectCd" th:field="*{subjectCd}" required>
-                <option th:each="entry : ${subjectMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
-            </select>
-        </div>
-        <div>
-            <input type="hidden" name="schoolCd" th:value="${schoolCd}">
-        </div>
-        <div>
-            <label for="no">回数:</label>
-            <input type="number" id="no" name="no" th:field="*{no}" required/>
-        </div>
-        <div>
-            <label for="point">得点:</label>
-            <input type="number" id="point" name="point" th:field="*{point}"/>
-        </div>
-        <div>
-            <label for="classNum">クラス番号:</label>
-            <select id="classNum" name="classNum" th:field="*{classNum}" required>
-        		<option th:each="classNum : ${classNums}" th:value="${classNum.classNum}" th:text="${classNum.classNum}"></option>
-    		</select>
-        </div>
-        <div>
-            <button type="submit">登録</button>
-        </div>
+        <button type="submit" class="btn btn-success" name="action">検索</button>
     </form>
-    <a href="/tests/list">成績一覧に戻る</a>
+    
+    <form th:action="@{/tests/register/save}" method="post">
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="subjectCd">科目:</label>
+                <select class="form-control" id="subjectCd" name="subjectCd" required>
+                    <option th:each="entry : ${subjectMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="no">回数:</label>
+                <select class="form-control" id="no" name="no" required>
+                    <option th:each="no : ${#numbers.sequence(1, 3)}" th:value="${no}" th:text="${no}"></option>
+                </select>
+            </div>
+        </div>
 
-
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
+        <table class="table table-bordered mt-4" th:if="${not #lists.isEmpty(students)}">
+            <thead class="thead-light">
+                <tr>
+                    <th>入学年度</th>
+                    <th>クラス</th>
+                    <th>学生番号</th>
+                    <th>氏名</th>
+                    <th>点数</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="test, rowStat : ${students}">
+                    <td th:text="${test.entYear}"></td>
+                    <td th:text="${test.classNum}"></td>
+                    <td th:text="${test.no}"></td>
+                    <td th:text="${test.name}"></td>
+                    <td>
+                        <input type="hidden" name="classNum" th:value="${test.classNum}" />
+                        <input type="hidden" name="studentNo" th:value="${test.no}" />
+                        <input type="number" class="form-control" name="point" th:value="${point}" placeholder="0～100" min="0" max="100" required />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    
+        <button type="submit" class="btn btn-success" name="action">保存</button>
+    </form>
+    
+    <p th:if="${errorMessage}"><span th:text="${errorMessage}"></span></p>
+    <a href="/tests/list" class="d-block mt-4">成績参照へ</a>
+    <a href="/" class="btn btn-link">トップへ</a>
 </div>
 
-<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
+<!-- Bootstrapと依存関係のあるJavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

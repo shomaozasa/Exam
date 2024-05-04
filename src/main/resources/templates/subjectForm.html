@@ -12,7 +12,7 @@
 <style>
         body {
             background-color: #f8f9fa;
-            margin-top: 50px;
+            padding-top: 50px; /* トップスペースをpadding-topで調整 */
         }
 
         .container {
@@ -20,6 +20,8 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            max-width: 600px; /* コンテナの最大幅を設定 */
+            margin: auto; /* 中央寄せ */
         }
 
         h1 {
@@ -27,63 +29,41 @@
             margin-bottom: 20px;
         }
 
-        label {
+        .form-group label {
             font-weight: bold;
         }
 
-        form {
-            max-width: 500px;
-            margin: auto;
-        }
-
-        select, input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            box-sizing: border-box;
+        .form-control {
+            box-shadow: none; /* フォーム要素の影を無くす */
         }
 
         button[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #0056b3;
+            width: 100%; /* ボタンを幅いっぱいに */
+            margin-top: 10px; /* マージンで間隔を開ける */
         }
     </style>
 
 <div class="container">
     <h1>科目登録</h1>
     <form th:action="@{/subjects/register}" method="post" th:object="${subject}">
-        <div>
+        <div class="form-group">
             <label for="cd">科目コード:</label>
-            <input type="text" id="cd" name="cd" th:field="*{cd}" required/>
+            <input type="text" id="cd" name="cd" th:field="*{cd}" required class="form-control"/>
         </div>
-        <div>
+        <div class="form-group">
             <label for="name">科目名:</label>
-            <input type="text" id="name" name="name" th:field="*{name}" required/>
+            <input type="text" id="name" name="name" th:field="*{name}" required class="form-control"/>
         </div>
         <div>
 			<input type="hidden" name="schoolCd" th:value="${schoolCd}">
         </div>
         <div>
-            <button type="submit">登録</button>
+            <button type="submit" class="btn btn-primary">登録</button>
         </div>
     </form>
-
-
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
 </div>
-
-<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
+<a href="/" class="btn btn-link">トップへ</a>
+<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js)、BootstrapのJS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

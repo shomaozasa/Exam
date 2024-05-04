@@ -59,8 +59,7 @@ public class TestController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	String id = authentication.getName();
 	    Teacher teacher = userRepository.findByIdEquals(id);
-	    String schoolCd = teacher.getSchoolCd();
-	    model.addAttribute("schoolCd", schoolCd);
+	    String schoolCd = teacher.getSchoolCd();	    
 	    
 	    List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
 	    model.addAttribute("classNums", classNums);
@@ -72,22 +71,141 @@ public class TestController {
         }
         model.addAttribute("subjectMap", subjectMap);
         
-        List<Student> students = studentService.getStudentsBySchoolCd(schoolCd);
-        Map<String, String> studentMap = new HashMap<>();
-        for (Student student : students) {
-            studentMap.put(student.getNo(), student.getName());
-        }
-        model.addAttribute("studentMap", studentMap);
-        
         return "testForm";
     }
+    
+//    @PostMapping("/register")
+//    public String registerTest(
+//            @RequestParam(name = "entYear", required = false) Integer entYear,
+//            @RequestParam(name = "classNum", required = false) String classNum,
+//            @ModelAttribute Test test,
+//            @ModelAttribute("tests") ArrayList<Test> tests,
+//            Model model
+//    ) {
+//   
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String id = authentication.getName();
+//        Teacher teacher = userRepository.findByIdEquals(id);
+//        String schoolCd = teacher.getSchoolCd();
+//
+//        if (entYear != null && classNum != null) {
+//            // 入学年度とクラス番号で学生リストをフィルタリングして表示
+//            List<Test> filteredTests = testService.filterEntYearAndClassNum(entYear, classNum, schoolCd);
+//            System.out.println("検索結果: " + filteredTests);
+//            model.addAttribute("tests", filteredTests);
+//
+//            List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+//            model.addAttribute("classNums", classNums);
+//
+//            List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+//            Map<String, String> subjectMap = new HashMap<>();
+//            for (Subject subject : subjects) {
+//                subjectMap.put(subject.getCd(), subject.getName());
+//            }
+//            model.addAttribute("subjectMap", subjectMap);
+//            return "testForm";
+//        }
+//
+//        else {
+//        	
+//        	for (Test seiseki : tests) {
+//                // データベースに保存する前に、必要な処理を実行
+//                // 例: 学校コードの設定
+//                seiseki.setSchoolCd(schoolCd);
+//                seiseki.setStudentNo("101");
+//                seiseki.setClassNum("101");
+//                seiseki.setPoint(10);
+//                System.out.print("成績データ:" + seiseki.getStudentNo() + seiseki.getSubjectCd() + seiseki.getSchoolCd()
+//                + seiseki.getNo() + seiseki.getPoint() + seiseki.getClassNum());
+//
+//                // データベースに保存
+//                testService.registerTest(seiseki);
+//            }
+//        	
+//        	return "redirect:/tests/list";
+//        }
+//    }
+    
+    @PostMapping("/register/search")
+    public String searchTests(
+            @RequestParam(name = "entYear", required = false) Integer entYear,
+            @RequestParam(name = "classNum", required = false) String classNum,
+            Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        Teacher teacher = userRepository.findByIdEquals(id);
+        String schoolCd = teacher.getSchoolCd();
 
-    @PostMapping("/register")
-    public String registerTest(@ModelAttribute Test test) {
-        testService.registerTest(test);
+          	List<Student> filteredTests = studentService.filterEntYearAndClassNum(entYear, classNum, schoolCd);
+            System.out.println("検索結果: " + filteredTests);
+            model.addAttribute("students", filteredTests);
+
+            List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+            model.addAttribute("classNums", classNums);
+
+            List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+            Map<String, String> subjectMap = new HashMap<>();
+            for (Subject subject : subjects) {
+                subjectMap.put(subject.getCd(), subject.getName());
+            }
+            model.addAttribute("subjectMap", subjectMap);
+
+            return "testForm";
+        
+    }
+   
+    @PostMapping("/register/save")
+    public String saveTest(@RequestParam(name = "studentNo", required = false)  List<String> studentNos,
+            @RequestParam(name = "classNum", required = false) List<String> classNums,
+            @RequestParam(name = "subjectCd", required = false) String subjectCd,
+            @RequestParam(name = "no", required = false) Integer no,
+            @RequestParam(name = "point", required = false) List<Integer> points,
+    		@ModelAttribute("testsave") Test tests,
+    		Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        Teacher teacher = userRepository.findByIdEquals(id);
+        String schoolCd = teacher.getSchoolCd();
+        
+        if (studentNos == null || studentNos.isEmpty()) {
+        	List<ClassNum> classNum = classNumService.getClassNumsBySchoolCd(schoolCd);
+            model.addAttribute("classNums", classNum);
+
+            List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+            Map<String, String> subjectMap = new HashMap<>();
+            for (Subject subject : subjects) {
+                subjectMap.put(subject.getCd(), subject.getName());
+            }
+            model.addAttribute("subjectMap", subjectMap);
+            model.addAttribute("errorMessage", "表が見つかりません。");
+            return "testForm"; // エラーページにリダイレクトするなど
+        }
+        
+        for (int i = 0; i < studentNos.size(); i++) {
+            Test test = new Test();
+            test.setStudentNo(studentNos.get(i));
+            test.setSubjectCd(subjectCd);
+            test.setSchoolCd(schoolCd);
+            test.setNo(no);
+            test.setPoint(points.get(i));
+            test.setClassNum(classNums.get(i));
+            
+            System.out.println("SQLクエリ: INSERT INTO TEST (STUDENT_NO, SUBJECT_CD, SCHOOL_CD, NO, POINT, CLASS_NUM) VALUES (" + 
+                    test.getStudentNo() + ", " +
+                    test.getSubjectCd() + ", " +
+                    test.getSchoolCd() + ", " +
+                    test.getNo() + ", " +
+                    test.getPoint() + ", " +
+                    test.getClassNum() + ")");
+            
+            testService.registerTest(test);
+        }
+        
+        // 成績データの保存が完了したらリダイレクト
         return "redirect:/tests/list";
     }
-
+    
     @GetMapping("/list")
     public String listTests(Model model) {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -96,14 +214,82 @@ public class TestController {
 	    String schoolCd = teacher.getSchoolCd();
         List<Test> tests = testService.getTestsBySchoolCd(schoolCd);
         model.addAttribute("tests", tests);
+        
+        List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+        Map<String, String> subjectMap = new HashMap<>();
+        for (Subject subject : subjects) {
+            subjectMap.put(subject.getCd(), subject.getName());
+        }
+        model.addAttribute("subjectMap", subjectMap);
+        
+        List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+	    model.addAttribute("classNums", classNums);
         return "testList";
     }
     
-    @PostMapping("/list")
-    public String deleteClassTests(@RequestParam("studentNo") String studentNo, @RequestParam("subjectCd") String subjectCd, 
-    		@RequestParam("schoolCd") String schoolCd, @RequestParam("no") Integer no) {
-        testService.deleteByStudentNoAndSubjectCdAndSchoolCdAndNo(studentNo, subjectCd, schoolCd, no);
-        return "redirect:/tests/list"; // クラス番号一覧ページにリダイレクト
+    @PostMapping("/list/search")
+    public String searchedTests(
+            @RequestParam(name = "entYear", required = false) Integer entYear,
+            @RequestParam(name = "classNum", required = false) String classNum,
+            @RequestParam(name = "subjectCd", required = false) String subjectCd,
+            Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        Teacher teacher = userRepository.findByIdEquals(id);
+        String schoolCd = teacher.getSchoolCd();
+
+        List<Test> filteredTests = testService.filterTests(entYear, classNum, subjectCd, schoolCd);
+        System.out.println("検索結果: " + filteredTests); 
+        model.addAttribute("tests", filteredTests);
+        
+        List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+        Map<String, String> subjectMap = new HashMap<>();
+        for (Subject subject : subjects) {
+            subjectMap.put(subject.getCd(), subject.getName());
+        }
+        model.addAttribute("subjectMap", subjectMap);
+        
+        List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+	    model.addAttribute("classNums", classNums);
+
+        return "testList"; // 成績一覧ページに遷移
+    }
+    
+    @PostMapping("/list/search/student")
+    public String searchedTestsByStudentNo(
+            @RequestParam(name = "studentNo", required = false) String studentNo,
+            Model model
+    ) {
+    	
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        Teacher teacher = userRepository.findByIdEquals(id);
+        String schoolCd = teacher.getSchoolCd();
+
+        Student student = studentService.getStudentsByStudentNo(studentNo);
+        if (student != null && student.getSchoolCd().equals(schoolCd)) {
+        	String studentName = student.getName();
+        	String studentNum = student.getNo();
+        	model.addAttribute("studentName", studentName);
+        	model.addAttribute("studentNum", studentNum);
+        }
+        
+        List<Test> filteredTests = testService.filterTestsByStudentNo(studentNo, schoolCd);
+        System.out.println("検索結果: " + filteredTests); 
+        model.addAttribute("tests", filteredTests);
+        
+        List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+        Map<String, String> subjectMap = new HashMap<>();
+        for (Subject subject : subjects) {
+            subjectMap.put(subject.getCd(), subject.getName());
+        }
+        model.addAttribute("subjectMap", subjectMap);
+        
+        List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+	    model.addAttribute("classNums", classNums);
+
+        return "testList"; // 成績一覧ページに遷移
     }
 
     @GetMapping("/edit/{studentNo}/{subjectCd}/{schoolCd}/{no}")

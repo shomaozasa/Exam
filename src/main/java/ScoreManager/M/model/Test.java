@@ -2,6 +2,7 @@ package ScoreManager.M.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
@@ -16,7 +17,7 @@ public class Test {
     @Column(name = "STUDENT_NO", nullable = false, length = 10)
     private String studentNo;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STUDENT_NO", insertable = false, updatable = false) // 外部キーのマッピング
     private Student student;
 
@@ -24,7 +25,7 @@ public class Test {
     @Column(name = "SUBJECT_CD", nullable = false, length = 3)
     private String subjectCd;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SUBJECT_CD", insertable = false, updatable = false) // 外部キーのマッピング
     private Subject subject;
 
@@ -49,6 +50,10 @@ public class Test {
     
     public Student getStudent() {
     	return this.student;
+    }
+    
+    public Integer getEntYear() {
+    	return student.getEntYear();
     }
 
     public String getSubjectCd() {
@@ -99,4 +104,5 @@ public class Test {
     public void setClassNum(String classNum) {
         this.classNum = classNum;
     }
+
 }

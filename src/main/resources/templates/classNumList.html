@@ -59,9 +59,8 @@
 
 <div class="container">
     <h1>クラス一覧</h1>
-    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="学校コードを検索...">
     <br><br>
-    <table id="classListTable">
+    <table border="1">
         <thead>
             <tr>
                 <th>学校コード</th>
@@ -94,34 +93,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-function searchTable() {
-    // 入力された検索キーワードを取得
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("classListTable");
-    tr = table.getElementsByTagName("tr");
 
-    // テーブル内の各行に対してループ
-    for (i = 0; i < tr.length; i++) {
-        // 2つ目のセル（クラス番号）を取得
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            // セルの内容を取得し、大文字に変換
-            txtValue = td.textContent || td.innerText;
-            // 検索キーワードが含まれるかチェック
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                // 含まれる場合は表示
-                tr[i].style.display = "";
-            } else {
-                // 含まれない場合は非表示
-                tr[i].style.display = "none";
-            }
-        }
-    }
-}
-</script>
 
 
 </body>

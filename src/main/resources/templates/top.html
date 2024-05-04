@@ -6,72 +6,71 @@
     <title>得点管理システム</title>
     <!-- BootstrapのCSSをCDNから読み込み -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa; /* 背景色を少し暗めの灰色に設定 */
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px; /* コンテナの角を丸く */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */
+        }
+        h1 {
+            color: #007bff; /* タイトルの色 */
+            margin-bottom: 20px; /* タイトル下の余白 */
+        }
+        ul li h3 a {
+            color: #007bff; /* リンクの色 */
+            transition: color 0.2s; /* 色の変化を滑らかに */
+        }
+        ul li h3 a:hover {
+            color: #0056b3; /* リンクのホバー色 */
+        }
+        button[type="submit"] {
+            background-color: #007bff; /* ボタンの背景色 */
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px; /* ボタンの角を丸く */
+            cursor: pointer; /* カーソルを指マークに */
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<style>
-	/* リンクのスタイル */
-a {
-    color: #007bff; /* リンクの色をブートストラップのデフォルトの青色に設定 */
-    text-decoration: none; /* 下線を削除 */
-}
-
-a:hover {
-    color: #0056b3; /* ホバー時のリンクの色をブートストラップのデフォルトの青色の少し濃い色に設定 */
-}
-
-ul li {
-    margin-bottom: 10px; /* 各リスト項目の下に余白を追加 */
-}
-
-/* ボタンのスタイル */
-.btn-primary {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-primary:hover {
-    color: #fff;
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-</style>
 <div class="container">
-    <h1>トップ</h1><br>
+    <h1>得点管理システム</h1>
     <p>ようこそ: <span th:text="${userName}"></span>さん</p>
     <p>あなたの所属校: <span th:text="${schoolName}"></p>
     <p>学校コード: <span th:text="${schoolCd}"><p>
     <form th:action="@{/logout}" method="post">
-  		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-  		<button type="submit">ログアウト</button>
-	</form><br>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit">ログアウト</button>
+    </form><br>
     
     <ul>
-		
-	<li><h3><a href="schools/register">学校登録</a></h3></li>
-	<li><h3><a href="schools/list">学校一覧</a></h3></li>
-	<li><h3><a href="classnums/register">クラス登録</a></h3></li>
-	<li><h3><a href="classnums/list">クラス一覧</a></h3></li>
-	<li><h3><a href="students/register">学生登録</a></h3></li>
-	<li><h3><a href="students/list">学生一覧</a></h3></li>
-	<li><h3><a href="subjects/register">科目登録</a></h3></li>
-	<li><h3><a href="subjects/list">科目一覧</a></h3></li>
-	<li><h3><a href="teachers/register">教師登録</a></h3></li>
-	<li><h3><a href="teachers/list">教師一覧</a></h3></li>
-	<li><h3><a href="tests/register">成績登録</a></h3></li>
-	<li><h3><a href="tests/list">成績一覧</a></h3></li>
-
-	</ul>
-
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
+        <li><h3><a href="schools/register">学校登録</a></h3></li>
+        <li><h3><a href="schools/list">学校一覧</a></h3></li>
+        <li><h3><a href="classnums/register">クラス登録</a></h3></li>
+        <li><h3><a href="classnums/list">クラス一覧</a></h3></li>
+        <li><h3><a href="students/register">学生登録</a></h3></li>
+        <li><h3><a href="students/list">学生一覧</a></h3></li>
+        <li><h3><a href="subjects/register">科目登録</a></h3></li>
+        <li><h3><a href="subjects/list">科目一覧</a></h3></li>
+        <li><h3><a href="teachers/register">教師登録</a></h3></li>
+        <li><h3><a href="teachers/list">教師一覧</a></h3></li>
+        <li><h3><a href="tests/register">成績登録</a></h3></li>
+        <li><h3><a href="tests/list">成績一覧</a></h3></li>
+    </ul>
 </div>
 
 <!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>

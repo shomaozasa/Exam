@@ -15,4 +15,5 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 	List<Student> findByClassNum(String classNum);
 	List<Student> findByIsAttend(boolean isAttend);
 	List<Student> findBySchoolCd(String schoolCd);
+	Student findByNo(String no);
 }

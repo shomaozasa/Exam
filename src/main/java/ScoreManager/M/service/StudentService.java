@@ -49,6 +49,10 @@ public class StudentService {
         return studentRepository.findBySchoolCd(schoolCd);
     }
     
+    public Student getStudentsByStudentNo(String studentNo) {
+        return studentRepository.findByNo(studentNo);
+    }
+    
     // 学生番号の重複チェック
     public boolean isStudentNoDuplicate(String studentNo) {
         Optional<Student> existingStudent = studentRepository.findById(studentNo);
@@ -88,7 +92,30 @@ public class StudentService {
         return students;
     }
 
+    public List<Student> filterEntYearAndClassNum(Integer entYear, String classNum, String schoolCd) {
+        List<Student> allTests = studentRepository.findAll();
 
+            // 学校コードで絞り込み
+            allTests = allTests.stream()
+                    .filter(student -> student.getSchoolCd().equals(schoolCd))
+                    .collect(Collectors.toList());
+
+            // 入学年度で絞り込み
+            if (entYear != null) {
+                allTests = allTests.stream()
+                        .filter(student -> student.getEntYear().equals(entYear))
+                        .collect(Collectors.toList());
+            }
+
+            // クラス番号で絞り込み
+            if (classNum != null && !classNum.isEmpty()) {
+                allTests = allTests.stream()
+                        .filter(student -> student.getClassNum().equals(classNum))
+                        .collect(Collectors.toList());
+            }
+
+            return allTests;
+        }
 
 
 }

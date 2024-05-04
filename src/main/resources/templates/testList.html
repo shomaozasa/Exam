@@ -10,99 +10,130 @@
 <body>
 
 <style>
-        body {
-            background-color: #f8f9fa;
-            margin-top: 50px;
-        }
+    body {
+        background-color: #f8f9fa;
+        margin-top: 50px;
+    }
 
-        .container {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
+    .container {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
 
-        h1 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
+    h1 {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-        th, td {
-            padding: 8px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-        }
+    th, td {
+        padding: 8px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+    }
 
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
+    th {
+        background-color: #007bff;
+        color: #fff;
+    }
 
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
 
-        a, button {
-            text-decoration: none;
-            margin-right: 10px;
-        }
+    a, button {
+        text-decoration: none;
+        margin-right: 10px;
+    }
 
-        a:hover, button:hover {
-            text-decoration: underline;
-        }
-    </style>
+    a:hover, button:hover {
+        text-decoration: underline;
+    }
+</style>
 
 <div class="container">
-    <h1>成績一覧</h1>
-    <br><br>
-    <table border="1">
-        <tr>
-            <th>学生名</th>
-            <th>科目名</th>
-            <th>回数</th>
-            <th>得点</th>
-            <th>クラス番号</th>
-            <th colspan="2">操作</th>
-        </tr>
-        <tr th:each="test : ${tests}">
-            <td th:text="${test.student != null ? test.student.name : ''}"></td>
-            <td th:text="${test.subject != null ? test.subject.name : ''}"></td>
-            <td th:text="${test.no}"></td>
-            <td th:text="${test.point}"></td>
-            <td th:text="${test.classNum}"></td>
-            <td>
-                <a th:href="@{/tests/edit/{studentNo}/{subjectCd}/{schoolCd}/{no}(studentNo=${test.studentNo},subjectCd=${test.subjectCd},schoolCd=${test.schoolCd},no=${test.no})}">編集</a>
-            </td>
-            <td>
-                <form th:action="@{/tests/list}" method="post">
-                    <input type="hidden" name="studentNo" th:value="${test.studentNo}">
-                    <input type="hidden" name="subjectCd" th:value="${test.subjectCd}">
-                    <input type="hidden" name="schoolCd" th:value="${test.schoolCd}">
-                    <input type="hidden" name="no" th:value="${test.no}">
-                    <button type="submit" onclick="return confirm('このテストを削除しますか？')">削除</button>
-                </form>
-            </td>
-        </tr>
+    <h1>成績参照</h1>
+    
+    <form th:action="@{/tests/list/search}" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="entYear">入学年度:</label>
+                <input type="number" class="form-control" id="entYear" name="entYear" placeholder="入学年度を入力してください" required>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="classNum">クラス番号:</label>
+                <select class="form-control" id="classNum" name="classNum">
+                    <option value="">全て</option>
+                    <option th:each="classNum : ${classNums}" th:value="${classNum.classNum}" th:text="${classNum.classNum}"></option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="subjectCd">科目:</label>
+                <select class="form-control" id="subjectCd" name="subjectCd">
+                    <option value="">全て</option>
+                    <option th:each="entry : ${subjectMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select>
+            </div>
+            <div class="form-group col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary">検索</button>
+            </div>
+        </div>
+    </form>
+    
+    <form th:action="@{/tests/list/search/student}" method="post">
+        <div class="form-group">
+            <label for="studentNo">学生番号:</label>
+            <input type="text" class="form-control" id="studentNo" name="studentNo" placeholder="学生番号を入力してください">
+        </div>
+        <button type="submit" class="btn btn-primary">検索</button>
+    </form>
+    
+    <br>
+    <p th:if="${studentName}">学生名: <span th:text="${studentName}"></span></p>
+    <p th:if="${studentNum}">学生番号: <span th:text="${studentNum}"></span></p>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>入学年度</th>
+                <th>学生名</th>
+                <th>クラス番号</th>
+                <th>科目名</th>
+                <th>得点</th>
+                <th>試験回数</th>
+                <th colspan="2">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="test : ${tests}">
+                <td th:text="${test.student.entYear}"></td>
+                <td th:text="${test.student.name}"></td>
+                <td th:text="${test.classNum}"></td>
+                <td th:text="${test.subject.name}"></td>
+                <td th:text="${test.point}"></td>
+                <td th:text="${test.no}"></td>
+                <td>
+                    <a th:href="@{/tests/edit/{studentNo}/{subjectCd}/{schoolCd}/{no}(studentNo=${test.studentNo},subjectCd=${test.subjectCd},schoolCd=${test.schoolCd},no=${test.no})}">編集</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
-    <a href="/tests/register">成績を登録</a><br>
-    <a href="/">トップへ</a>
-
-
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
+    
+    <a href="/tests/register" class="btn btn-link">成績を登録</a>
+    <a href="/" class="btn btn-link">トップへ</a>
 </div>
 
 <!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 
 </body>
 </html>

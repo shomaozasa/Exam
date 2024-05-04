@@ -19,4 +19,6 @@ public interface TestRepository extends JpaRepository<Test, Long> {
 
 
 	List<Test> findBySchoolCd(String schoolCd);
+
+
 }

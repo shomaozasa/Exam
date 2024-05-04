@@ -65,7 +65,6 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>パスワード</th>
                 <th>名前</th>
                 <th>学校コード</th>
                 <th colspan="2">操作</th>
@@ -74,7 +73,6 @@
         <tbody>
             <tr th:each="teacher : ${teachers}">
                 <td th:text="${teacher.id}"></td>
-                <td th:text="${teacher.password}"></td>
                 <td th:text="${teacher.name}"></td>
                 <td th:text="${teacher.schoolCd}"></td>
                 <td>
