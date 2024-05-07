@@ -65,7 +65,7 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="entYear">入学年度:</label>
-                <input type="number" class="form-control" id="entYear" name="entYear" placeholder="入学年度を入力してください" required>
+                <input type="number" class="form-control" id="entYear" name="entYear" placeholder="入学年度を入力してください">
             </div>
             <div class="form-group col-md-3">
                 <label for="classNum">クラス番号:</label>
@@ -90,16 +90,16 @@
     <form th:action="@{/tests/list/search/student}" method="post">
         <div class="form-group">
             <label for="studentNo">学生番号:</label>
-            <input type="text" class="form-control" id="studentNo" name="studentNo" placeholder="学生番号を入力してください">
+            <input type="text" class="form-control" id="studentNo" name="studentNo" placeholder="学生番号を入力してください" required>
         </div>
         <button type="submit" class="btn btn-primary">検索</button>
     </form>
     
     <br>
-    <p th:if="${studentName}">学生名: <span th:text="${studentName}"></span></p>
-    <p th:if="${studentNum}">学生番号: <span th:text="${studentNum}"></span></p>
+    <p th:if="${studentName}">氏名: <span th:text="${studentName}"></span>(<span th:text="${studentNum}"></span>)</p>
+    <p th:if="${subjectName}">科目名: <span th:text="${subjectName}"></span></p>
     
-    <table class="table">
+    <table class="table" th:if="${tests}">
         <thead>
             <tr>
                 <th>入学年度</th>
@@ -108,7 +108,7 @@
                 <th>科目名</th>
                 <th>得点</th>
                 <th>試験回数</th>
-                <th colspan="2">操作</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -126,6 +126,26 @@
         </tbody>
     </table>
     
+    <table class="table" th:if="${testsByStudent}">
+        <thead>
+            <tr>
+                <th>科目名</th>
+                <th>科目コード</th>
+                <th>試験回数</th>
+                <th>点数</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="test : ${testsByStudent}">
+                <td th:text="${test.subject.name}"></td>
+                <td th:text="${test.subject.cd}"></td>
+                <td th:text="${test.no}"></td>
+                <td th:text="${test.point}"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <p th:if="${tests == null && testsByStudent == null}">科目情報か学生番号を入力して検索ボタンをクリックしてください。</p>
     <a href="/tests/register" class="btn btn-link">成績を登録</a>
     <a href="/" class="btn btn-link">トップへ</a>
 </div>

@@ -9,5 +9,7 @@ import ScoreManager.M.model.Subject;
 public interface SubjectRepository extends JpaRepository<Subject, String> {
 
 	List<Subject> findBySchoolCd(String schoolCd);
+
+	Subject findByCd(String subjectCd);
     
 }

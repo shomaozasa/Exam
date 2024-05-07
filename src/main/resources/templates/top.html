@@ -1,76 +1,185 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="ja">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>得点管理システム</title>-->
+<!--     BootstrapのCSSをCDNから読み込み -->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--    <style>-->
+<!--        body {-->
+<!--            padding-top: 20px;-->
+<!--            background-color: #f8f9fa; /* 背景色を少し暗めの灰色に設定 */-->
+<!--        }-->
+<!--        .container {-->
+<!--            background: white;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 10px; /* コンテナの角を丸く */-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */-->
+<!--        }-->
+<!--        h1 {-->
+<!--            color: #007bff; /* タイトルの色 */-->
+<!--            margin-bottom: 20px; /* タイトル下の余白 */-->
+<!--        }-->
+<!--        ul li h3 a {-->
+<!--            color: #007bff; /* リンクの色 */-->
+<!--            transition: color 0.2s; /* 色の変化を滑らかに */-->
+<!--        }-->
+<!--        ul li h3 a:hover {-->
+<!--            color: #0056b3; /* リンクのホバー色 */-->
+<!--        }-->
+<!--        button[type="submit"] {-->
+<!--            background-color: #007bff; /* ボタンの背景色 */-->
+<!--            border: none;-->
+<!--            padding: 10px 20px;-->
+<!--            color: white;-->
+<!--            border-radius: 5px; /* ボタンの角を丸く */-->
+<!--            cursor: pointer; /* カーソルを指マークに */-->
+<!--        }-->
+<!--        button[type="submit"]:hover {-->
+<!--            background-color: #0056b3;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h1>得点管理システム</h1>-->
+<!--    <p>ようこそ: <span th:text="${userName}"></span>さん</p>-->
+<!--    <p>あなたの所属校: <span th:text="${schoolName}"></p>-->
+<!--    <p>学校コード: <span th:text="${schoolCd}"><p>-->
+<!--    <form th:action="@{/logout}" method="post">-->
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+<!--        <button type="submit">ログアウト</button>-->
+<!--    </form><br>-->
+    
+<!--    <ul>-->
+<!--        <li><h3><a href="schools/register">学校登録</a></h3></li>-->
+<!--        <li><h3><a href="schools/list">学校一覧</a></h3></li>-->
+<!--        <li><h3><a href="classnums/register">クラス登録</a></h3></li>-->
+<!--        <li><h3><a href="classnums/list">クラス一覧</a></h3></li>-->
+<!--        <li><h3><a href="students/register">学生登録</a></h3></li>-->
+<!--        <li><h3><a href="students/list">学生一覧</a></h3></li>-->
+<!--        <li><h3><a href="subjects/register">科目登録</a></h3></li>-->
+<!--        <li><h3><a href="subjects/list">科目一覧</a></h3></li>-->
+<!--        <li><h3><a href="teachers/register">教師登録</a></h3></li>-->
+<!--        <li><h3><a href="teachers/list">教師一覧</a></h3></li>-->
+<!--        <li><h3><a href="tests/register">成績登録</a></h3></li>-->
+<!--        <li><h3><a href="tests/list">成績一覧</a></h3></li>-->
+<!--    </ul>-->
+<!--</div>-->
+
+<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>得点管理システム</title>
-    <!-- BootstrapのCSSをCDNから読み込み -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
     <style>
-        body {
-            padding-top: 20px;
-            background-color: #f8f9fa; /* 背景色を少し暗めの灰色に設定 */
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px; /* コンテナの角を丸く */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */
-        }
-        h1 {
-            color: #007bff; /* タイトルの色 */
-            margin-bottom: 20px; /* タイトル下の余白 */
-        }
-        ul li h3 a {
-            color: #007bff; /* リンクの色 */
-            transition: color 0.2s; /* 色の変化を滑らかに */
-        }
-        ul li h3 a:hover {
-            color: #0056b3; /* リンクのホバー色 */
-        }
-        button[type="submit"] {
-            background-color: #007bff; /* ボタンの背景色 */
-            border: none;
-            padding: 10px 20px;
-            color: white;
-            border-radius: 5px; /* ボタンの角を丸く */
-            cursor: pointer; /* カーソルを指マークに */
-        }
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    body {
+    font-family: sans-serif;
+}
+
+header {
+    background-color: rgb(191, 255, 255);
+    padding: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    padding: 20px;
+}
+
+.content {
+    flex: 1;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+}
+</style>
 </head>
 <body>
-<div class="container">
-    <h1>得点管理システム</h1>
-    <p>ようこそ: <span th:text="${userName}"></span>さん</p>
-    <p>あなたの所属校: <span th:text="${schoolName}"></p>
-    <p>学校コード: <span th:text="${schoolCd}"><p>
-    <form th:action="@{/logout}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <button type="submit">ログアウト</button>
-    </form><br>
-    
-    <ul>
-        <li><h3><a href="schools/register">学校登録</a></h3></li>
-        <li><h3><a href="schools/list">学校一覧</a></h3></li>
-        <li><h3><a href="classnums/register">クラス登録</a></h3></li>
-        <li><h3><a href="classnums/list">クラス一覧</a></h3></li>
-        <li><h3><a href="students/register">学生登録</a></h3></li>
-        <li><h3><a href="students/list">学生一覧</a></h3></li>
-        <li><h3><a href="subjects/register">科目登録</a></h3></li>
-        <li><h3><a href="subjects/list">科目一覧</a></h3></li>
-        <li><h3><a href="teachers/register">教師登録</a></h3></li>
-        <li><h3><a href="teachers/list">教師一覧</a></h3></li>
-        <li><h3><a href="tests/register">成績登録</a></h3></li>
-        <li><h3><a href="tests/list">成績一覧</a></h3></li>
-    </ul>
-</div>
-
-<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <header>
+        <h1>得点管理システム</h1>
+        <nav>
+            <ul>
+                <li><span th:text="${userName}"></span>様</li>
+                <li><form th:action="@{/logout}" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        			<button type="submit">ログアウト</button>
+    				</form></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <aside class="sidebar">
+                <ul>
+	                <li><a href="/">メニュー</a></li><br>
+                    <li><a href="students/list">学生管理</a></li><br>
+                    <li>成績管理</li>
+                    <ul>
+						<li><a href="tests/register">成績登録</a></li><br>
+						<li><a href="tests/list">成績参照</a></li>
+					</ul><br>
+                    <li><a href="subjects/list">科目管理</a></li>
+                </ul>
+            </aside>
+            <div class="content">
+			<ul>
+		        <li><h1><a href="schools/register">学校登録</a></h1></li>
+		        <li><h1><a href="schools/list">学校一覧</a></h1></li>
+		        <li><h1><a href="classnums/register">クラス登録</a></h1></li>
+		        <li><h1><a href="classnums/list">クラス一覧</a></h1></li>
+		        <li><h1><a href="students/register">学生登録</a></h1></li>
+		        <li><h1><a href="students/list">学生一覧</a></h1></li>
+		        <li><h1><a href="subjects/register">科目登録</a></h1></li>
+		        <li><h1><a href="subjects/list">科目一覧</a></h1></li>
+		        <li><h1><a href="teachers/register">教師登録</a></h1></li>
+		        <li><h1><a href="teachers/list">教師一覧</a></h1></li>
+		        <li><h1><a href="tests/register">成績登録</a></h1></li>
+		        <li><h1><a href="tests/list">成績一覧</a></h1></li>
+    		</ul>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 大原</p>
+    </footer>
 </body>
 </html>

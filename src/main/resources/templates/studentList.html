@@ -80,9 +80,6 @@
                     <option value="false">退学済み</option>
                 </select>
             </div>
-            <div>
-           		<input type="hidden" name="schoolCd" th:value="${schoolCd}">
-            </div>
         </div>
         <button type="submit" class="btn btn-primary">検索</button>
     </form>
@@ -101,7 +98,7 @@
         </thead>
         <tbody>
             <!-- 検索結果を表示する部分 -->
-            <tr th:if="${not #lists.isEmpty(searchedStudents)}" th:each="student : ${searchedStudents}">
+            <tr th:if="${searchedStudents}" th:each="student : ${searchedStudents}">
                 <td th:text="${student.no}"></td>
                 <td th:text="${student.name}"></td>
                 <td th:text="${student.entYear}"></td>

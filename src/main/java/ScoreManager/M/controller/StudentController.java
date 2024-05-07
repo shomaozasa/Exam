@@ -87,7 +87,6 @@ public class StudentController {
             @RequestParam(name = "entYear", required = false) Integer entYear,
             @RequestParam(name = "classNum", required = false) String classNum,
             @RequestParam(name = "isAttend", required = false) Boolean isAttend,
-            @RequestParam(name = "schoolCd", required = true) String schoolCd,
             Model model) {
         
         // 検索操作
@@ -95,9 +94,8 @@ public class StudentController {
     	String id = authentication.getName();
 	    Teacher teacher = userRepository.findByIdEquals(id);
 	    String schoolcd = teacher.getSchoolCd();
-	    model.addAttribute("schoolCd", schoolcd);
 	    
-        List<Student> students = studentService.filterStudents(entYear, classNum, isAttend, schoolCd);
+        List<Student> students = studentService.filterStudents(entYear, classNum, isAttend, schoolcd);
         System.out.println("検索結果: " + students); 
         model.addAttribute("searchedStudents", students);
         return "studentList"; // 検索結果のテンプレート名を返す

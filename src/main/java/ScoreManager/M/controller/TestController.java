@@ -74,58 +74,6 @@ public class TestController {
         return "testForm";
     }
     
-//    @PostMapping("/register")
-//    public String registerTest(
-//            @RequestParam(name = "entYear", required = false) Integer entYear,
-//            @RequestParam(name = "classNum", required = false) String classNum,
-//            @ModelAttribute Test test,
-//            @ModelAttribute("tests") ArrayList<Test> tests,
-//            Model model
-//    ) {
-//   
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String id = authentication.getName();
-//        Teacher teacher = userRepository.findByIdEquals(id);
-//        String schoolCd = teacher.getSchoolCd();
-//
-//        if (entYear != null && classNum != null) {
-//            // 入学年度とクラス番号で学生リストをフィルタリングして表示
-//            List<Test> filteredTests = testService.filterEntYearAndClassNum(entYear, classNum, schoolCd);
-//            System.out.println("検索結果: " + filteredTests);
-//            model.addAttribute("tests", filteredTests);
-//
-//            List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
-//            model.addAttribute("classNums", classNums);
-//
-//            List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
-//            Map<String, String> subjectMap = new HashMap<>();
-//            for (Subject subject : subjects) {
-//                subjectMap.put(subject.getCd(), subject.getName());
-//            }
-//            model.addAttribute("subjectMap", subjectMap);
-//            return "testForm";
-//        }
-//
-//        else {
-//        	
-//        	for (Test seiseki : tests) {
-//                // データベースに保存する前に、必要な処理を実行
-//                // 例: 学校コードの設定
-//                seiseki.setSchoolCd(schoolCd);
-//                seiseki.setStudentNo("101");
-//                seiseki.setClassNum("101");
-//                seiseki.setPoint(10);
-//                System.out.print("成績データ:" + seiseki.getStudentNo() + seiseki.getSubjectCd() + seiseki.getSchoolCd()
-//                + seiseki.getNo() + seiseki.getPoint() + seiseki.getClassNum());
-//
-//                // データベースに保存
-//                testService.registerTest(seiseki);
-//            }
-//        	
-//        	return "redirect:/tests/list";
-//        }
-//    }
-    
     @PostMapping("/register/search")
     public String searchTests(
             @RequestParam(name = "entYear", required = false) Integer entYear,
@@ -212,8 +160,6 @@ public class TestController {
     	String id = authentication.getName();
 	    Teacher teacher = userRepository.findByIdEquals(id);
 	    String schoolCd = teacher.getSchoolCd();
-        List<Test> tests = testService.getTestsBySchoolCd(schoolCd);
-        model.addAttribute("tests", tests);
         
         List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
         Map<String, String> subjectMap = new HashMap<>();
@@ -238,6 +184,12 @@ public class TestController {
         String id = authentication.getName();
         Teacher teacher = userRepository.findByIdEquals(id);
         String schoolCd = teacher.getSchoolCd();
+        
+        Subject subjectName = subjectService.getSubjectsBySubjectCd(subjectCd);
+        if (subjectName != null && subjectName.getSchoolCd().equals(schoolCd)) {
+        	String subjectNames = subjectName.getName();
+        	model.addAttribute("subjectName", subjectNames);
+        }
 
         List<Test> filteredTests = testService.filterTests(entYear, classNum, subjectCd, schoolCd);
         System.out.println("検索結果: " + filteredTests); 
@@ -277,7 +229,7 @@ public class TestController {
         
         List<Test> filteredTests = testService.filterTestsByStudentNo(studentNo, schoolCd);
         System.out.println("検索結果: " + filteredTests); 
-        model.addAttribute("tests", filteredTests);
+        model.addAttribute("testsByStudent", filteredTests);
         
         List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
         Map<String, String> subjectMap = new HashMap<>();
