@@ -103,5 +103,10 @@ public class TestService {
 
             return allTests;
         }
+
+    public Test getTestByStudentNoAndSubjectCdAndNo(String studentNo, String subjectCd, int no) {
+        return testRepository.findByStudentNoAndSubjectCdAndNo(studentNo, subjectCd, no);
+    }
+
     
 }

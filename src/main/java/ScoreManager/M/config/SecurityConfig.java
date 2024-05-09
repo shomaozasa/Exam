@@ -43,6 +43,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request -> {
 					request
 							.requestMatchers("/login").permitAll()// ログインページは全許可
+							.requestMatchers("/logout_success").permitAll()
 							.requestMatchers("/webjars/**").permitAll() // webjarsのパスは全許可
 							.requestMatchers("/js/**").permitAll()      // JSのstaticファイル
 							.requestMatchers("/css/**").permitAll()     // CSSのstaticファイル
@@ -62,7 +63,7 @@ public class SecurityConfig {
 				.logout(logout -> {
 					logout
 							.logoutUrl("/logout")
-							.logoutSuccessUrl("/login")
+							.logoutSuccessUrl("/logout_success")
 							.deleteCookies("JSESSIONID")
 							.invalidateHttpSession(true);
 				});

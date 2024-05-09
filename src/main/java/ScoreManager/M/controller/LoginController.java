@@ -11,13 +11,8 @@ public class LoginController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String login(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
-//        if (userService.authenticate(id, password)) {
-//            return "redirect:/";
-//        } else {
-//            model.addAttribute("error", "IDまたはパスワードが違います");
-//            return "login";
-//        }
-//    }
+    @GetMapping("/logout_success")
+    public String logout() {
+    	return "logout";
+    }
 }

@@ -49,6 +49,10 @@ public class StudentService {
         return studentRepository.findBySchoolCd(schoolCd);
     }
     
+    public List<Integer> getEntYearBySchoolCd(String schoolCd) {
+        return studentRepository.findDistinctEntYearBySchoolCd(schoolCd);
+    }
+    
     public Student getStudentsByStudentNo(String studentNo) {
         return studentRepository.findByNo(studentNo);
     }
@@ -116,6 +120,7 @@ public class StudentService {
 
             return allTests;
         }
+
 
 
 }

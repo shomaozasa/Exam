@@ -56,7 +56,34 @@
         a:hover, button:hover {
             text-decoration: underline;
         }
+        
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+            background-color: #0056b3;
+    }
     </style>
+
+<header class="container-fluid bg-light">
+  <div class="row">
+    <div class="col">
+      <h1>成績管理システム</h1>
+    </div>
+    <div class="col text-right">
+		<form th:action="@{/logout}" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        	<button type="submit">ログアウト</button>
+    	</form>
+    </div>
+  </div>
+</header><br>
 
 <div class="container">
     <h1>科目一覧</h1>

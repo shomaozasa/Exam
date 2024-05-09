@@ -51,7 +51,7 @@ public class StudentController {
 	    
 	    List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
 	    model.addAttribute("classNums", classNums);
-        return "studentForm"; // 登録画面のテンプレート名を返す
+        return "studentForm";
     }
 
     @PostMapping("/register")
@@ -62,10 +62,9 @@ public class StudentController {
         	List<ClassNum> classnums = classNumService.getAllClassNums();
             model.addAttribute("classNums", classnums);
             model.addAttribute("errorMessage", "※学生番号が重複しています※");
-            return "studentForm"; // エラーメッセージを含んだ登録画面のテンプレート名を返す
+            return "studentForm";
         }
         
-        // 重複していない場合は学生を登録し、一覧画面にリダイレクトする
         studentService.registerStudent(student);
         return "redirect:/students/list";
     }
@@ -77,6 +76,10 @@ public class StudentController {
     	String id = authentication.getName();
 	    Teacher teacher = userRepository.findByIdEquals(id);
 	    String schoolCd = teacher.getSchoolCd();
+	    
+	    List<ClassNum> classNum = classNumService.getClassNumsBySchoolCd(schoolCd);
+        model.addAttribute("classNums", classNum);
+	    
 	    List<Student> students = studentService.getStudentsBySchoolCd(schoolCd);
         model.addAttribute("students", students);
         return "studentList";
@@ -93,12 +96,25 @@ public class StudentController {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	String id = authentication.getName();
 	    Teacher teacher = userRepository.findByIdEquals(id);
-	    String schoolcd = teacher.getSchoolCd();
+	    String schoolCd = teacher.getSchoolCd();
 	    
-        List<Student> students = studentService.filterStudents(entYear, classNum, isAttend, schoolcd);
+        List<Student> students = studentService.filterStudents(entYear, classNum, isAttend, schoolCd);
+        
+        if (students.isEmpty()) {
+        	List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+        	List<Integer> entYears = studentService.getEntYearBySchoolCd(schoolCd);
+            model.addAttribute("classNums", classNums);
+            model.addAttribute("entYears", entYears);
+        	model.addAttribute("errorMessage", "学生情報が存在しませんでした。");
+        	return "studentList";
+        }
+        
+        List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+        model.addAttribute("classNums", classNums);
+        
         System.out.println("検索結果: " + students); 
         model.addAttribute("searchedStudents", students);
-        return "studentList"; // 検索結果のテンプレート名を返す
+        return "studentList";
     }
 
 

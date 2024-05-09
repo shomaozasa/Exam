@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン</title>
-    <!-- BootstrapのCSSをCDNから読み込み -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -13,6 +12,7 @@
         body {
             background-color: #f8f9fa;
             margin-top: 50px;
+            font-family: sans-serif;
         }
 
         .container {
@@ -57,31 +57,64 @@
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
+        
+        header {
+    		background-color: rgb(191, 255, 255);
+    		padding: 20px;
+		}
+		
+		footer {
+    		background-color: #f0f0f0;
+    		padding: 15px;
+    		text-align: center;
+		}
     </style>
+
+<header>
+     <h1>得点管理システム</h1>
+</header>
+<br>
 
 <div class="container">
         <h2>ログイン</h2>
     <form th:action="@{/login}" method="post">
 		
 		 <label for="id">id</label>
-         <input type="text" class="form-control" id="id" name="id" placeholder="半角でご入力ください" required><br>
+         <input type="text" class="form-control" id="id" name="id" placeholder="半角でご入力ください" inputmode="verbatim" required><br>
          
          <label for="password">パスワード</label>
-         <input type="password" class="form-control" id="password" name="password" placeholder="20文字以内の半角英数字" required><br>
+         <input type="password" class="form-control" id="passwordInput" name="password" placeholder="20文字以内の半角英数字" required>
+         <input type="checkbox" id="showPasswordCheckbox" onchange="togglePasswordVisibility()">
+    	 <label for="showPasswordCheckbox">パスワードを表示する</label>
+         <br>
         <button type="submit">ログイン</button>
-    </form><br>
+    </form><br><br>
 
 <div th:if="${param.error}">
         <p style="text-align: center">無効なユーザーIDまたはパスワードです。</p>
-
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
 </div>
+
+ <footer>
+     <p>&copy; 2023 TIC</p>
+     <p>大原学園</p>
+ </footer>
 
 <!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('passwordInput');
+            var checkbox = document.getElementById('showPasswordCheckbox');
+
+            if (checkbox.checked) {
+                passwordInput.type = 'text'; // チェックされている場合はテキスト表示
+            } else {
+                passwordInput.type = 'password'; // チェックが外れている場合はパスワード表示
+            }
+        }
+    </script>
 
 </body>
 </html>

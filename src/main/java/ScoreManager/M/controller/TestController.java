@@ -75,7 +75,7 @@ public class TestController {
     }
     
     @PostMapping("/register/search")
-    public String searchTests(
+    public String searchTest(
             @RequestParam(name = "entYear", required = false) Integer entYear,
             @RequestParam(name = "classNum", required = false) String classNum,
             Model model
@@ -109,13 +109,13 @@ public class TestController {
             @RequestParam(name = "subjectCd", required = false) String subjectCd,
             @RequestParam(name = "no", required = false) Integer no,
             @RequestParam(name = "point", required = false) List<Integer> points,
-    		@ModelAttribute("testsave") Test tests,
     		Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
         Teacher teacher = userRepository.findByIdEquals(id);
         String schoolCd = teacher.getSchoolCd();
         
+        // 表が見つからなかった場合
         if (studentNos == null || studentNos.isEmpty()) {
         	List<ClassNum> classNum = classNumService.getClassNumsBySchoolCd(schoolCd);
             model.addAttribute("classNums", classNum);
@@ -127,8 +127,27 @@ public class TestController {
             }
             model.addAttribute("subjectMap", subjectMap);
             model.addAttribute("errorMessage", "表が見つかりません。");
-            return "testForm"; // エラーページにリダイレクトするなど
+            return "testForm";
         }
+        
+        // 回数の重複チェック
+        for (int i = 0; i < studentNos.size(); i++) {
+	        Test existingTest = testService.getTestByStudentNoAndSubjectCdAndNo(studentNos.get(i), subjectCd, no);
+	        if (existingTest != null) {
+	        	List<ClassNum> classNum = classNumService.getClassNumsBySchoolCd(schoolCd);
+	            model.addAttribute("classNums", classNum);
+
+	            List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+	            Map<String, String> subjectMap = new HashMap<>();
+	            for (Subject subject : subjects) {
+	                subjectMap.put(subject.getCd(), subject.getName());
+	            }
+	            model.addAttribute("subjectMap", subjectMap);
+	            model.addAttribute("errorMessage", "回数が重複しています。");
+	            return "testForm";
+	        }
+        }
+
         
         for (int i = 0; i < studentNos.size(); i++) {
             Test test = new Test();

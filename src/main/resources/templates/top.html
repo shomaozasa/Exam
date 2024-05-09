@@ -1,87 +1,9 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="ja">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>得点管理システム</title>-->
-<!--     BootstrapのCSSをCDNから読み込み -->
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-<!--    <style>-->
-<!--        body {-->
-<!--            padding-top: 20px;-->
-<!--            background-color: #f8f9fa; /* 背景色を少し暗めの灰色に設定 */-->
-<!--        }-->
-<!--        .container {-->
-<!--            background: white;-->
-<!--            padding: 20px;-->
-<!--            border-radius: 10px; /* コンテナの角を丸く */-->
-<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */-->
-<!--        }-->
-<!--        h1 {-->
-<!--            color: #007bff; /* タイトルの色 */-->
-<!--            margin-bottom: 20px; /* タイトル下の余白 */-->
-<!--        }-->
-<!--        ul li h3 a {-->
-<!--            color: #007bff; /* リンクの色 */-->
-<!--            transition: color 0.2s; /* 色の変化を滑らかに */-->
-<!--        }-->
-<!--        ul li h3 a:hover {-->
-<!--            color: #0056b3; /* リンクのホバー色 */-->
-<!--        }-->
-<!--        button[type="submit"] {-->
-<!--            background-color: #007bff; /* ボタンの背景色 */-->
-<!--            border: none;-->
-<!--            padding: 10px 20px;-->
-<!--            color: white;-->
-<!--            border-radius: 5px; /* ボタンの角を丸く */-->
-<!--            cursor: pointer; /* カーソルを指マークに */-->
-<!--        }-->
-<!--        button[type="submit"]:hover {-->
-<!--            background-color: #0056b3;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    <h1>得点管理システム</h1>-->
-<!--    <p>ようこそ: <span th:text="${userName}"></span>さん</p>-->
-<!--    <p>あなたの所属校: <span th:text="${schoolName}"></p>-->
-<!--    <p>学校コード: <span th:text="${schoolCd}"><p>-->
-<!--    <form th:action="@{/logout}" method="post">-->
-<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
-<!--        <button type="submit">ログアウト</button>-->
-<!--    </form><br>-->
-    
-<!--    <ul>-->
-<!--        <li><h3><a href="schools/register">学校登録</a></h3></li>-->
-<!--        <li><h3><a href="schools/list">学校一覧</a></h3></li>-->
-<!--        <li><h3><a href="classnums/register">クラス登録</a></h3></li>-->
-<!--        <li><h3><a href="classnums/list">クラス一覧</a></h3></li>-->
-<!--        <li><h3><a href="students/register">学生登録</a></h3></li>-->
-<!--        <li><h3><a href="students/list">学生一覧</a></h3></li>-->
-<!--        <li><h3><a href="subjects/register">科目登録</a></h3></li>-->
-<!--        <li><h3><a href="subjects/list">科目一覧</a></h3></li>-->
-<!--        <li><h3><a href="teachers/register">教師登録</a></h3></li>-->
-<!--        <li><h3><a href="teachers/list">教師一覧</a></h3></li>-->
-<!--        <li><h3><a href="tests/register">成績登録</a></h3></li>-->
-<!--        <li><h3><a href="tests/list">成績一覧</a></h3></li>-->
-<!--    </ul>-->
-<!--</div>-->
-
-<!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
-<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>-->
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>得点管理システム</title>
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
     <style>
     body {
     font-family: sans-serif;
@@ -128,9 +50,50 @@ h2 {
 
 footer {
     background-color: #f0f0f0;
-    padding: 20px;
+    padding: 15px;
     text-align: center;
 }
+    .school-section {
+            background-color: rgb(255, 236, 176); /* 学校セクションの背景色 */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .class-section {
+            background-color: rgb(176, 236, 190); /* クラスセクションの背景色 */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .subject-section {
+            background-color: rgb(242, 176, 185); /* 科目セクションの背景色 */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .student-section {
+            background-color: rgb(251, 204, 172); /* 学生セクションの背景色 */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .teacher-section {
+            background-color: rgb(208, 183, 251); /* 教師セクションの背景色 */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .test-section {
+            background-color: rgb(174, 213, 255); /* 成績セクションの背景色 */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
 </style>
 </head>
 <body>
@@ -146,6 +109,7 @@ footer {
             </ul>
         </nav>
     </header>
+    <br>
     <main>
         <div class="container">
             <aside class="sidebar">
@@ -161,25 +125,36 @@ footer {
                 </ul>
             </aside>
             <div class="content">
-			<ul>
-		        <li><h1><a href="schools/register">学校登録</a></h1></li>
-		        <li><h1><a href="schools/list">学校一覧</a></h1></li>
-		        <li><h1><a href="classnums/register">クラス登録</a></h1></li>
-		        <li><h1><a href="classnums/list">クラス一覧</a></h1></li>
-		        <li><h1><a href="students/register">学生登録</a></h1></li>
-		        <li><h1><a href="students/list">学生一覧</a></h1></li>
-		        <li><h1><a href="subjects/register">科目登録</a></h1></li>
-		        <li><h1><a href="subjects/list">科目一覧</a></h1></li>
-		        <li><h1><a href="teachers/register">教師登録</a></h1></li>
-		        <li><h1><a href="teachers/list">教師一覧</a></h1></li>
-		        <li><h1><a href="tests/register">成績登録</a></h1></li>
-		        <li><h1><a href="tests/list">成績一覧</a></h1></li>
-    		</ul>
+				   <section class="school-section">
+                    <h2><a href="schools/register">学校登録</a></h2>
+                    <h2><a href="schools/list">学校一覧</a></h2>
+                </section>
+                <section class="class-section">
+                    <h2><a href="classnums/register">クラス登録</a></h2>
+                    <h2><a href="classnums/list">クラス一覧</a></h2>
+                </section>
+                <section class="student-section">
+                    <h2><a href="students/register">学生登録</a></h2>
+                    <h2><a href="students/list">学生一覧</a></h2>
+                </section>
+                <section class="subject-section">
+                    <h2><a href="subjects/register">科目登録</a></h2>
+                    <h2><a href="subjects/list">科目一覧</a></h2>
+                </section>
+                <section class="teacher-section">
+                    <h2><a href="teachers/register">教師登録</a></h2>
+                    <h2><a href="teachers/list">教師一覧</a></h2>
+                </section>
+                <section class="test-section">
+                    <h2><a href="tests/register">成績登録</a></h2>
+                    <h2><a href="tests/list">成績一覧</a></h2>
+                </section>
             </div>
         </div>
     </main>
     <footer>
-        <p>&copy; 2023 大原</p>
+        <p>&copy; 2023 TIC</p>
+        <p>大原学園</p>
     </footer>
 </body>
 </html>
