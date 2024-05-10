@@ -69,23 +69,23 @@
 </header><br>
 
 <div class="container">
-    <h1>学生編集</h1>
+    <h1>学生情報変更</h1>
     <form th:action="@{/students/edit/{studentNo}(studentNo=${student.no})}" th:object="${student}" method="post">
-        <div>
-            <label for="no">学生番号:</label>
-            <input type="text" id="no" name="no" th:value="*{no}" readonly/>
-        </div>
         <div>
             <label for="entYear">入学年度:</label>
             <input type="number" id="entYear" name="entYear" th:value="*{entYear}" readonly>
 			</input>
         </div>
         <div>
-            <label for="name">名前:</label>
+            <label for="no">学生番号:</label>
+            <input type="text" id="no" name="no" th:value="*{no}" readonly/>
+        </div>
+        <div>
+            <label for="name">氏名:</label>
             <input type="text" id="name" name="name" th:value="*{name}" required/>
         </div>
         <div>
-            <label for="classNum">クラス番号:</label>
+            <label for="classNum">クラス:</label>
             <select id="classNum" name="classNum" th:field="*{classNum}" required>
         		<option th:each="classNum : ${classNums}" th:value="${classNum.classNum}" th:text="${classNum.classNum}"></option>
     		</select>

@@ -14,7 +14,7 @@ public class SubjectService {
 
     @Autowired
     private SubjectRepository subjectRepository;
-
+    
     // 科目を登録するメソッド
     public Subject registerSubject(Subject subject) {
         return subjectRepository.save(subject);
@@ -46,6 +46,11 @@ public class SubjectService {
 
 	public Subject getSubjectsBySubjectCd(String subjectCd) {
 		return subjectRepository.findByCd(subjectCd);
+	}
+	
+	public boolean isSubjectCdNoDuplicate(String cd, String schoolCd) {
+	    Optional<Subject> existingStudent = subjectRepository.findByCdAndSchoolCd(cd, schoolCd);
+	    return existingStudent.isPresent(); // 存在すれば true を返す
 	}
 	
 }

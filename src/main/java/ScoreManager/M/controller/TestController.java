@@ -214,6 +214,21 @@ public class TestController {
         System.out.println("検索結果: " + filteredTests); 
         model.addAttribute("tests", filteredTests);
         
+        if (filteredTests.isEmpty()) {
+        	List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+            model.addAttribute("classNums", classNums);
+            
+            List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+            Map<String, String> subjectMap = new HashMap<>();
+            for (Subject subject : subjects) {
+                subjectMap.put(subject.getCd(), subject.getName());
+            }
+            model.addAttribute("subjectMap", subjectMap);
+            
+        	model.addAttribute("errorMessage", "成績情報が存在しませんでした。");
+        	return "testList";
+        }
+        
         List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
         Map<String, String> subjectMap = new HashMap<>();
         for (Subject subject : subjects) {
@@ -249,6 +264,21 @@ public class TestController {
         List<Test> filteredTests = testService.filterTestsByStudentNo(studentNo, schoolCd);
         System.out.println("検索結果: " + filteredTests); 
         model.addAttribute("testsByStudent", filteredTests);
+        
+        if (filteredTests.isEmpty()) {
+        	List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
+            model.addAttribute("classNums", classNums);
+            
+            List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
+            Map<String, String> subjectMap = new HashMap<>();
+            for (Subject subject : subjects) {
+                subjectMap.put(subject.getCd(), subject.getName());
+            }
+            model.addAttribute("subjectMap", subjectMap);
+            
+        	model.addAttribute("errorMessage", "成績情報が存在しませんでした。");
+        	return "testList";
+        }
         
         List<Subject> subjects = subjectService.getSubjectsBySchoolCd(schoolCd);
         Map<String, String> subjectMap = new HashMap<>();

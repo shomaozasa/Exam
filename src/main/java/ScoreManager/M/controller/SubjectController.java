@@ -51,7 +51,19 @@ public class SubjectController {
 
     // 科目登録処理
     @PostMapping("/register")
-    public String registerSubject(@ModelAttribute Subject subject) {
+    public String registerSubject(@ModelAttribute Subject subject, Model model) {
+    	 
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+     	String id = authentication.getName();
+ 	    Teacher teacher = userRepository.findByIdEquals(id);
+ 	    String schoolCd = teacher.getSchoolCd();
+ 	    
+        if (subjectService.isSubjectCdNoDuplicate(subject.getCd(), schoolCd)) {
+            model.addAttribute("errorMessage", "※科目コードが重複しています※");
+            model.addAttribute("schoolCd", schoolCd);
+            return "subjectForm";
+        }
+        
         subjectService.registerSubject(subject);
         return "redirect:/subjects/list";
     }

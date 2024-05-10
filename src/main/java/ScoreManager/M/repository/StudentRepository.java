@@ -1,6 +1,7 @@
 package ScoreManager.M.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,5 +17,5 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 	List<Student> findByIsAttend(boolean isAttend);
 	List<Student> findBySchoolCd(String schoolCd);
 	Student findByNo(String no);
-	List<Integer> findDistinctEntYearBySchoolCd(String schoolCd);
+	Optional<Student> findByNoAndSchoolCd(String studentNo, String schoolCd);
 }

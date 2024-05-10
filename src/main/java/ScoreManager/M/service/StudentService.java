@@ -49,17 +49,13 @@ public class StudentService {
         return studentRepository.findBySchoolCd(schoolCd);
     }
     
-    public List<Integer> getEntYearBySchoolCd(String schoolCd) {
-        return studentRepository.findDistinctEntYearBySchoolCd(schoolCd);
-    }
-    
     public Student getStudentsByStudentNo(String studentNo) {
         return studentRepository.findByNo(studentNo);
     }
     
     // 学生番号の重複チェック
-    public boolean isStudentNoDuplicate(String studentNo) {
-        Optional<Student> existingStudent = studentRepository.findById(studentNo);
+    public boolean isStudentNoDuplicate(String studentNo, String schoolCd) {
+        Optional<Student> existingStudent = studentRepository.findByNoAndSchoolCd(studentNo, schoolCd);
         return existingStudent.isPresent(); // 存在すれば true を返す
     }
     

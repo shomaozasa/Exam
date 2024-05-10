@@ -121,31 +121,31 @@
     <table border="1">
         <thead>
             <tr>
-                <th>学生番号</th>
-                <th>名前</th>
                 <th>入学年度</th>
-                <th>クラス番号</th>
-                <th>在学</th>
-                <th>操作</th>
+                <th>学生番号</th>
+                <th>氏名</th>
+                <th>クラス</th>
+                <th>在学中</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <!-- 検索結果を表示する部分 -->
             <tr th:if="${searchedStudents}" th:each="student : ${searchedStudents}">
+                <td th:text="${student.entYear}"></td>
                 <td th:text="${student.no}"></td>
                 <td th:text="${student.name}"></td>
-                <td th:text="${student.entYear}"></td>
                 <td th:text="${student.classNum}"></td>
-                <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
+                <td th:text="${student.isAttend} ? '〇' : '×'"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
             </tr>
             <!-- 通常の学生一覧を表示する部分 -->
             <tr th:each="student : ${students}" th:if="${student.isAttend}">
+                <td th:text="${student.entYear}"></td>
                 <td th:text="${student.no}"></td>
                 <td th:text="${student.name}"></td>
-                <td th:text="${student.entYear}"></td>
                 <td th:text="${student.classNum}"></td>
-                <td th:text="${student.isAttend} ? '在学中' : '退学済み'"></td>
+                <td th:text="${student.isAttend} ? '〇' : '×'"></td>
                 <td><a th:href="@{'/students/edit/' + ${student.no}}">編集</a></td>
             </tr>
         </tbody>

@@ -76,14 +76,6 @@
 <div class="container">
     <h1>学生登録</h1>
     <form th:action="@{/students/register}" th:object="${student}" method="post">
-        <div>
-            <label for="no">学生番号:</label>
-            <input type="text" id="no" name="no" th:value="*{no}" required/>
-        </div>
-        <div>
-            <label for="name">名前:</label>
-            <input type="text" id="name" name="name" th:value="*{name}" required/>
-        </div>
 		<div>
     		<label for="entYear">入学年度:</label>
 			<select id="entYear" name="entYear" required>
@@ -92,7 +84,15 @@
 			</select>
 		</div>
         <div>
-            <label for="classNum">クラス番号:</label>
+            <label for="no">学生番号:</label>
+            <input type="text" id="no" name="no" th:value="*{no}" required placeholder="学生番号を入力してください" maxlength="10"/>
+        </div>
+        <div>
+            <label for="name">氏名:</label>
+            <input type="text" id="name" name="name" th:value="*{name}" required placeholder="氏名を入力してください" maxlength="30"/>
+        </div>
+        <div>
+            <label for="classNum">クラス:</label>
 			<select id="classNum" name="classNum" th:field="*{classNum}" required>
 				<option value="">-----</option>
         		<option th:each="classNum : ${classNums}" th:value="${classNum.classNum}" th:text="${classNum.classNum}"></option>

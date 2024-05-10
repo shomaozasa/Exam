@@ -56,11 +56,18 @@ public class StudentController {
 
     @PostMapping("/register")
     public String registerStudent(@ModelAttribute Student student, Model model) {
+    	
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String id = authentication.getName();
+	    Teacher teacher = userRepository.findByIdEquals(id);
+	    String schoolCd = teacher.getSchoolCd();
+	    
         // 学生番号の重複をチェック
-        if (studentService.isStudentNoDuplicate(student.getNo())) {
+        if (studentService.isStudentNoDuplicate(student.getNo(),schoolCd)) {
             // 重複している場合はエラーメッセージを設定して登録画面に戻る
         	List<ClassNum> classnums = classNumService.getAllClassNums();
             model.addAttribute("classNums", classnums);
+            model.addAttribute("schoolCd", schoolCd);
             model.addAttribute("errorMessage", "※学生番号が重複しています※");
             return "studentForm";
         }
@@ -102,9 +109,7 @@ public class StudentController {
         
         if (students.isEmpty()) {
         	List<ClassNum> classNums = classNumService.getClassNumsBySchoolCd(schoolCd);
-        	List<Integer> entYears = studentService.getEntYearBySchoolCd(schoolCd);
             model.addAttribute("classNums", classNums);
-            model.addAttribute("entYears", entYears);
         	model.addAttribute("errorMessage", "学生情報が存在しませんでした。");
         	return "studentList";
         }
@@ -141,7 +146,6 @@ public class StudentController {
 
     @PostMapping("/edit/{studentNo}")
     public String processEditStudent(@PathVariable String studentNo, @ModelAttribute Student studentData) {
-        studentData.setNo(studentNo);
         studentService.registerStudent(studentData);
         return "redirect:/students/list";
     }
