@@ -38,5 +38,9 @@ public class SchoolService {
         School school = schoolRepository.findByCdEquals(cd);
         return school.getName();
     }
+
+	public School isSchoolNoDuplicate(String cd) {
+		return schoolRepository.findByCd(cd);
+	}
 }
 

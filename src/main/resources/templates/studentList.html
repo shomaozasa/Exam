@@ -93,21 +93,21 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="entYear">入学年度:</label>
-                <select class="form-control" id="entYear" name="entYear" required>
+                <select class="form-control" id="entYear" name="entYear">
                     <option value="">-----</option>
                     <option th:each="year : ${#numbers.sequence(2000, 2030)}" th:value="${year}" th:text="${year}"></option>
                 </select>
             </div>
             <div class="form-group col-md-4">
                 <label for="classNum">クラス番号:</label>
-                <select class="form-control" id="classNum" name="classNum" required>
+                <select class="form-control" id="classNum" name="classNum">
                     <option value="">-----</option>
                     <option th:each="classNum : ${classNums}" th:value="${classNum.classNum}" th:text="${classNum.classNum}"></option>
                 </select>
             </div>
             <div class="form-group col-md-4">
                 <label for="isAttend">在学:</label>
-                <select class="form-control" id="isAttend" name="isAttend" th:value="${isAttend}" required>
+                <select class="form-control" id="isAttend" name="isAttend" th:value="${isAttend}">
                     <option value="">-----</option>
                     <option value="true">在学中</option>
                     <option value="false">退学済み</option>

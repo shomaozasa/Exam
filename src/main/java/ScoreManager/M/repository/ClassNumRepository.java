@@ -15,4 +15,5 @@ public interface ClassNumRepository extends JpaRepository<ClassNum, ClassNumId> 
 	 @Query("SELECT c FROM ClassNum c WHERE c.schoolCd = ?1 AND c.classNum = ?2")
 	    Optional<ClassNum> findById(String schoolCd, String classNum);
 	List<ClassNum> findBySchoolCd(String schoolCd);
+	Optional<ClassNum> findByClassNumAndSchoolCd(String classNum, String schoolCd);
 }

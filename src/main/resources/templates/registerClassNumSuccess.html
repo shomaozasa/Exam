@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>学生登録</title>
+    <title>クラス登録完了</title>
     <!-- BootstrapのCSSをCDNから読み込み -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-	
-	<style>
+    <style>
         body {
             background-color: #f8f9fa;
             margin-top: 50px;
@@ -27,37 +24,34 @@
             margin-bottom: 20px;
         }
 
-        label {
-            font-weight: bold;
-        }
-
-        form {
-            max-width: 500px;
-            margin: auto;
-        }
-
-        select, input[type="text"] {
+        table {
             width: 100%;
-            padding: 8px;
+            border-collapse: collapse;
             margin-bottom: 20px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            box-sizing: border-box;
         }
 
-        button[type="submit"] {
+        th, td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        th {
             background-color: #007bff;
             color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
-            cursor: pointer;
         }
 
-        button[type="submit"]:hover {
-            background-color: #0056b3;
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
         }
+        
+        .header {
+			background-color: rgb(210, 255, 142);
+		}
+
     </style>
+</head>
+<body>
 
 <header class="container-fluid bg-light">
   <div class="row">
@@ -74,34 +68,19 @@
 </header><br>
 
 <div class="container">
-    <h1>学校登録</h1>
-    <form th:action="@{/schools/register}" th:object="${school}" method="post">
-		<div>
-            <label for="cd">学校コード:</label>
-            <input type="text" id="cd" name="cd" th:value="*{cd}" required placeholder="学校コードを入力してください" maxlength="3" minlength="3"/>
-        </div>
-        <div>
-            <label for="name">学校名:</label>
-            <input type="text" id="name" name="name" th:value="*{name}" required placeholder="学校名を入力してください" maxlength="20"/>
-        </div>
-        <div>
-            <button type="submit">保存</button>
-        </div>
-        <br>
-        <div th:if="${errorMessage}" class="text-danger">
-    		<p th:text="${errorMessage}"></p>
-		</div>
-    </form>
-
-
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
-<a href="/" class="btn btn-link">トップへ</a>
+    <h1 class="header">登録が完了しました！</h1>
+    <br><br>
+    <a href="/classnums/list">クラス一覧</a><br>
+    <a href="/">トップへ</a>
 </div>
+
 <!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+
 </body>
 </html>
+

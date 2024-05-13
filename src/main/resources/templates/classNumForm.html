@@ -83,11 +83,15 @@
         </div>
         <div>
             <label for="classNum">クラス番号:</label>
-            <input type="text" id="classNum" name="classNum" th:field="*{classNum}" required/>
+            <input type="text" id="classNum" name="classNum" th:field="*{classNum}" required placeholder="クラス番号を入力してください" maxlength="5"/>
         </div>
         <div>
             <button type="submit">登録</button>
         </div>
+        <br>
+        <div th:if="${errorMessage}" class="text-danger">
+    		<p th:text="${errorMessage}"></p>
+		</div>
     </form>
 <a href="/" class="btn btn-link">トップへ</a>
 </div>

@@ -27,21 +27,29 @@ public class SchoolController {
     @Autowired
     private SchoolRepository schoolRepository;
 
-    // 学校登録画面を表示するエンドポイント
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("school", new School());
         return "schoolForm"; // 登録画面のテンプレート名を返す
     }
 
-    // 学校を登録するエンドポイント
     @PostMapping("/register")
-    public String registerSchool(@ModelAttribute("school") School school) {
+    public String registerSchool(@ModelAttribute("school") School school, Model model) {
+    	
+    	if (schoolService.isSchoolNoDuplicate(school.getCd()) != null) {
+            model.addAttribute("errorMessage", "※学校コードが重複しています※");
+            return "schoolForm";
+        }
+    	
         schoolService.registerSchool(school);
-        return "redirect:/schools/list";
+        return "redirect:/schools/register_success";
+    }
+    
+    @GetMapping("register_success")
+    public String Success() {
+    	return "registerSchoolSuccess";
     }
 
-    // 全ての学校を表示するエンドポイント
     @GetMapping("/list")
     public String showSchoolList(Model model) {
         List<School> schools = schoolService.getAllSchools();

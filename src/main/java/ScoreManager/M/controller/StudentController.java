@@ -73,9 +73,13 @@ public class StudentController {
         }
         
         studentService.registerStudent(student);
-        return "redirect:/students/list";
+        return "redirect:/students/register_success";
     }
-
+    
+    @GetMapping("/register_success")
+    public String Success() {
+    	return "registerStudentSuccess";
+    }
     
     @GetMapping("/list")
     public String listStudents(Model model) {

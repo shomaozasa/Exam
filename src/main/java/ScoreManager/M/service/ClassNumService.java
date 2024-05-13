@@ -1,6 +1,7 @@
 package ScoreManager.M.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,11 @@ public class ClassNumService {
     public List<ClassNum> getClassNumsBySchoolCd(String schoolCd) {
         return classNumRepository.findBySchoolCd(schoolCd);
     }
+
+	public boolean isClassNumNoDuplicate(String classNum, String schoolCd) {
+		Optional<ClassNum> existingClassNum = classNumRepository.findByClassNumAndSchoolCd(classNum, schoolCd);
+	    return existingClassNum.isPresent(); 
+	}
     
 }
 

@@ -65,7 +65,7 @@ public class SubjectController {
         }
         
         subjectService.registerSubject(subject);
-        return "redirect:/subjects/list";
+        return "redirect:/subjects/register_success";
     }
 
     // 科目一覧ページを表示
@@ -84,6 +84,11 @@ public class SubjectController {
     public String deleteSubjects(@RequestParam("cd") String cd) {
         subjectService.deleteSubject(cd);
         return "redirect:/subjects/list"; // クラス番号一覧ページにリダイレクト
+    }
+    
+    @GetMapping("/register_success")
+    public String Success() {
+    	return "registerSubjectSuccess";
     }
 
     // 科目編集ページを表示

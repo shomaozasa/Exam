@@ -76,20 +76,23 @@
 <div class="container">
         <h2>教師登録</h2>
     <form th:action="@{/teachers/register}" method="post" th:object="${teacher}">
-        ID：<input type="text" th:field="*{id}" required><br>
-        パスワード: <input type="text" th:field="*{password}" length="30" required><br>
-        名前：<input type="text" th:field="*{name}" required><br>
+        ID：<input type="text" th:field="*{id}" required placeholder="idを入力してください"><br>
+        パスワード: <input type="text" th:field="*{password}" maxlength="30" required placeholder="パスワードを入力してください"><br>
+        名前：<input type="text" th:field="*{name}" required maxlength="10" placeholder="名前を入力してください"><br>
         学校：<select id="schoolCd" name="schoolCd" th:field="*{schoolCd}" required>
                 		<option th:each="entry : ${schoolMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
             		</select><br>
         <button type="submit">登録</button>
+        <br>
+        <div th:if="${errorMessage}" class="text-danger">
+    		<p th:text="${errorMessage}"></p>
+		</div>
     </form>
     <a href="/teachers/list">教師一覧に戻る</a><br>
     <a href="/" class="btn btn-link">トップへ</a>
 
 
-    <!-- ボタンの例 -->
-<!--    <button type="button" class="btn btn-primary">Primary Button</button>-->
+
 </div>
 
 <!-- Bootstrapと依存関係のあるJavaScript(jQuery, Popper.js) -->

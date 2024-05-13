@@ -143,7 +143,7 @@ public class TestController {
 	                subjectMap.put(subject.getCd(), subject.getName());
 	            }
 	            model.addAttribute("subjectMap", subjectMap);
-	            model.addAttribute("errorMessage", "回数が重複しています。");
+	            model.addAttribute("errorMessage", "※回数が重複しています。");
 	            return "testForm";
 	        }
         }
@@ -170,7 +170,12 @@ public class TestController {
         }
         
         // 成績データの保存が完了したらリダイレクト
-        return "redirect:/tests/list";
+        return "redirect:/tests/register_success";
+    }
+    
+    @GetMapping("/register_success")
+    public String Success() {
+    	return "registerTestSuccess";
     }
     
     @GetMapping("/list")

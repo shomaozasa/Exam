@@ -48,11 +48,33 @@ public class TeacherController {
     }
 
     @PostMapping("/register")
-    public String registerTeacher(@ModelAttribute Teacher teacher) {
+    public String registerTeacher(@ModelAttribute Teacher teacher, Model model) {
+    	
+    	if (teacherService.isTeacherNoDuplicate(teacher.getId())) {
+    		
+            model.addAttribute("errorMessage", "※idが重複しています※");
+            List<School> schools = schoolService.getAllSchools();
+            Map<String, String> schoolMap = new HashMap<>();
+            for (School school : schools) {
+                schoolMap.put(school.getCd(), school.getName());
+            }
+            model.addAttribute("schoolMap", schoolMap);;
+            
+            Teacher newTeacher = new Teacher();
+            model.addAttribute("teacher", newTeacher);
+            
+            return "teacherForm";
+        }
+    	
     	String hashedPassword = passwordEncoder.encode(teacher.getPassword());
         teacher.setPassword(hashedPassword);
         teacherService.registerTeacher(teacher);
-        return "redirect:/teachers/list";
+        return "redirect:/teachers/register_success";
+    }
+    
+    @GetMapping("register_success")
+    public String Success() {
+    	return "registerTeacherSuccess";
     }
 
     @GetMapping("/list")

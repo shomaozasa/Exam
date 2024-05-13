@@ -44,4 +44,9 @@ public class TeacherService {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
+
+	public boolean isTeacherNoDuplicate(String id) {
+		Optional<Teacher> existingTeacher = teacherRepository.findById(id);
+	    return existingTeacher.isPresent(); 
+	}
 }
