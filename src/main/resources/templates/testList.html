@@ -139,7 +139,7 @@
 				<th>1回目</th>
 				<th>2回目</th>
 				<th>3回目</th>
-<!--                <th>操作</th>-->
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -151,6 +151,9 @@
     <td th:text="${test.no == 1 ? test.point : '-'}"></td>
     <td th:text="${test.no == 2 ? test.point : '-'}"></td>
     <td th:text="${test.no == 3 ? test.point : '-'}"></td>
+    <td>
+     	<a th:href="@{/tests/edit/{studentNo}/{subjectCd}/{schoolCd}/{no}(studentNo=${test.studentNo},subjectCd=${test.subjectCd},schoolCd=${test.schoolCd},no=${test.no})}">編集</a>
+    </td>
 </tr>
 
         </tbody>
