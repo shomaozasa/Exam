@@ -214,9 +214,9 @@ public class TestController {
         	String subjectNames = subjectName.getName();
         	model.addAttribute("subjectName", subjectNames);
         }
-
+        
         List<Test> filteredTests = testService.filterTests(entYear, classNum, subjectCd, schoolCd);
-        System.out.println("検索結果: " + filteredTests); 
+        System.out.println("検索結果: " + filteredTests);
         model.addAttribute("tests", filteredTests);
         
         if (filteredTests.isEmpty()) {

@@ -22,5 +22,5 @@ public interface TestRepository extends JpaRepository<Test, Long> {
 
 
 	Test findByStudentNoAndSubjectCdAndNo(String studentNo, String subjectCd, int no);
-
+	
 }

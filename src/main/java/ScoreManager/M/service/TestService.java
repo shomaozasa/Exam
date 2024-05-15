@@ -52,7 +52,7 @@ public class TestService {
     }
     
     public List<Test> filterTests(Integer entYear, String classNum, String subjectCd, String schoolCd) {
-        // 全てのテストデータをデータベースから取得する
+        // 全ての成績データをデータベースから取得する
         List<Test> allTests = testRepository.findAll();
 
             // 学校コードで絞り込み
@@ -86,7 +86,7 @@ public class TestService {
         }
     
     public List<Test> filterTestsByStudentNo(String studentNo, String schoolCd) {
-        // 全てのテストデータをデータベースから取得する
+        // 全ての成績データをデータベースから取得する
         List<Test> allTests = testRepository.findAll();
 
             // 学校コードで絞り込み
@@ -108,5 +108,4 @@ public class TestService {
         return testRepository.findByStudentNoAndSubjectCdAndNo(studentNo, subjectCd, no);
     }
 
-    
 }
